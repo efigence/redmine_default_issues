@@ -1,0 +1,21 @@
+# English strings go here for Rails i18n
+en:
+  label_default_issue: Default issue
+  label_default_issue_plural: Default issues
+  label_default_issue_new: New default issue
+  label_default_issue_edit: Edit default issue
+  label_default_issue_created: Default issue was successfully created.
+  label_default_issue_updated: Default issue was successfully updated.
+  label_default_issue_destroyed: Default issue was successfully deleted.
+
+  project_module_default_issues: Default issues
+
+  label_default_issues_show_in_top_menu: Show in top menu
+  #label_default_issues_show_in_app_menu: Show in app menu
+
+  permission_view_default_issues: View default issue
+  permission_edit_default_issues: Edit default issues
+  permission_edit_own_default_issues: Edit own default issues
+  permission_delete_default_issues: Delete default issues
+
+  label_related_default_issues: Related default issues

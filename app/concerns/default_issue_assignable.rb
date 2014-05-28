@@ -1,4 +1,4 @@
-module DefaultIssues
+module DefaultIssueAssignable
   extend ActiveSupport::Concern
 
   def assign_default_issues

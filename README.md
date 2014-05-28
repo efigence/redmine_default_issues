@@ -11,8 +11,10 @@ Developed & tested on Redmine 2.5.1
 # Installation
 
 1. Go to your Redmine installation's plugins/ directory.
-2. `git clone https://github.com/efigence/redmine_default_issues`
-3. Restart Redmine.
+2. `git clone https://github.com/efigence/redmine_default_issues && cd ..`
+3. `bundle exec rake redmine:plugins:migrate NAME=redmine_default_issues RAILS_ENV=production`
+4. Restart Redmine.
+5. Add proper permissions and module tab in redmine settings.
 
 # Usage
 
