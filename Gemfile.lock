@@ -1,0 +1,11 @@
+GEM
+  specs:
+    awesome_print (1.2.0)
+    hirb (0.7.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  hirb

@@ -40,6 +40,7 @@ end
 
 Rails.configuration.to_prepare do
   require "redmine_default_issues/patches/project_patch"
+  require "redmine_default_issues/patches/member_patch"
   require_relative "app/helpers/default_issues_helper.rb"
   require_relative "app/concerns/default_issue_assignable.rb"
   Member.send :include, DefaultIssueAssignable
