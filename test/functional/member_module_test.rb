@@ -6,72 +6,74 @@ class MemberModuleTest < ActiveSupport::TestCase
 
   fixtures :roles, :trackers, :projects_trackers, :enumerations, :projects, :users, :issue_statuses, :default_issues
 
+
+  def assert_default_issue_with_issue(default_issue, issue)
+    [:subject, :description, :tracker_id, :status_id, :author_id, :priority_id, :project_id, :estimated_hours].each do |attr|
+      assert_equal issue.send(attr), default_issue.send(attr), "mismatched #{attr}"
+    end
+    if default_issue.parent_id
+      assert issue.parent_id, 'missing parent id'
+      assert_default_issue_with_issue(issue.parent, default_issue.parent) 
+    end
+  end
+
+  def array_to_object(collection)
+    iss = {}
+    collection.each do |issue|
+      iss[issue.subject] = issue
+    end
+    iss
+  end
+
+  def assert_collection_of_default_issue_with_issue(default_issues, issues)
+      iss = array_to_object(issues)
+      diss = array_to_object(default_issues)
+
+      diss.each do |subject, di|
+        issue = iss[subject]
+        assert issue, 'issue misssing'
+        assert_default_issue_with_issue(di, issue)  
+      end
+  end
+
   test "create, issue count should be increment" do
     assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +1 do
-      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [2])
       assert member.save
       member.reload
 
-      assert_equal 2, member.roles.size
-      assert_equal Role.find(1), member.roles.sort.first
+      assert_equal 1, member.roles.size
+      assert_equal Role.find(2), member.roles.sort.first
     end
   end
 
   test "new_issue" do
     assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +1 do
-      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [2])
       assert member.save
       member.reload
 
-      issues = Issue.where(project_id: 1, assigned_to_id: 4).order('subject').all
-      iss = {}
-      issues.each do |issue|
-        iss[issue.subject] = issue
-      end
-
-      default_issues = DefaultIssue.where(project_id: 1, :role_id => [1, 2] ).order('subject').all
-
-      diss = {}
-      default_issues.each do |dissue|
-        diss[dissue.subject] = dissue
-      end
-
-
-      diss.each do |subject, di|
-        issue = iss[subject]
-        assert issue, 'issue misssing'
-
-        [:subject, :description, :tracker_id, :status_id, :author_id, :priority_id, :project_id, :estimated_hours].each do |attr|
-          assert_equal issue.send(attr), di.send(attr), "mismatched #{attr}"
-        end        
-      end
+      issues = Issue.where(project_id: 1, assigned_to_id: 4).all
+      default_issues = DefaultIssue.where(project_id: 1, :role_id => [2] ).all
+      assert_collection_of_default_issue_with_issue(default_issues, issues)
     end
   end
 
-   # test "Added role to member, issue count should be increment" do
-      #assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +1 do
-       # member = Member.new(:project_id => 1, :user_id => 4)
-       # assert member.save
-       # member.reload
-        #member.roles << Role.find(1)
-#
-      #  puts "#{Issue.where(project_id: 1, assigned_to_id: 4).count}"
-     # end
-   # end
+  test "Default Issue subissue's" do
+    assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +4 do
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
+      assert member.save
+      member.reload
+      roots = DefaultIssue.where(:project_id => 1, :role_id => 1, :parent_id => nil).all
 
+      # diss is root?
+      roots.each do |root|
+        assert_equal root.root?, true
+      end
 
-      #assert_difference 'Member.find(3).roles.count', +1 do
-      #  member = Member.find(3).roles
-      #  member << Role.find(2)
-      #  assert_equal 3, Member.find(3).roles.count  
-
-
-
-  #test "subissue" do
-  #assert_difference 'Issue.where(root_id: 1)'  
-  #  parent = Issue.where(project_id: 1, root_id: 1)
-  #  child = Issue.where(root_id: parent.id)
-    
-  #  assert_equal child.root_id, parent.id
-  #end
+      issues = Issue.where(project_id: 1, assigned_to_id: 4).all
+      default_issues = DefaultIssue.where(project_id: 1, :role_id => [1, 2] ).all
+      assert_collection_of_default_issue_with_issue(default_issues, issues)
+    end
+  end
 end

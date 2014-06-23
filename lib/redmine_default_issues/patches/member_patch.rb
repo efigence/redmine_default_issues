@@ -10,28 +10,30 @@ module RedmineDefaultIssues
         end
       end
 
+      def create_issues(default_issues, root = nil, parent = nil)
+         if default_issues.exists?
+            default_issues.each do |default_issue|
+              i = default_issue.to_issue(self.user)
+              i.root_id = root.id if root
+              i.parent_id = parent.id if parent
+              if i.save
+                create_issues(default_issue.children, root || i, i)
+              else
+                Rails.logger.error "--- cannot create default issue \n #{default_issue.inspect} \n #{i.errors.inspect}"
+              end
+            end
+          end
+      end
+
       def create_default_issues
         Rails.logger.debug '---  create_default_issues'
         self.reload
         self.roles.each do |role|
-          di = DefaultIssue.where(role_id: role.id) 
-          if di.exists?
-            di.each do |default_issue|
-              i = default_issue.to_issue(self.user)
-              unless i.save
-                Rails.logger.error "--- cannot create default issue \n #{di.inspect} \n #{i.errors.inspect}"
-              end
-            end
-          end
+          di = DefaultIssue.where(role_id: role.id, parent_id: nil)
+          create_issues(di) 
         end
       end
 
-     # def add_role_to_member
-      #  Rails.logger.debug '---- added_new_role_to_member'
-      #  self.reload
-      #  member = self.roles
-     #   member << Role.find(:id)
-     # end
     end
   end
   unless Member.included_modules.include?(RedmineDefaultIssues::Patches::MemberPatch)

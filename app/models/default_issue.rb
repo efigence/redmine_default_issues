@@ -11,7 +11,8 @@ class DefaultIssue < ActiveRecord::Base
   validates :description, :presence => true
   validates :estimated_hours, :presence => true
 
-
+  acts_as_nested_set :scope => "root_id", :dependent => :destroy
+  
     def to_issue(user)
         i = Issue.new
         i.author_id = author_id
@@ -24,5 +25,7 @@ class DefaultIssue < ActiveRecord::Base
         i.assigned_to = user
         i
     end
+
+
 
 end
