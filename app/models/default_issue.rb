@@ -12,19 +12,53 @@ class DefaultIssue < ActiveRecord::Base
   validates :estimated_hours, :presence => true
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
+
+  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
+
+  after_save :recalculate_parent
   
-    def to_issue(user)
-        i = Issue.new
-        i.author_id = author_id
-        i.project_id = project_id
-        i.subject = subject
-        i.description = description
-        i.tracker_id = tracker_id
-        i.priority_id = priority_id
-        i.estimated_hours = estimated_hours
-        i.assigned_to = user
-        i
+  def to_issue(user)
+      i = Issue.new
+      i.author_id = author_id
+      i.project_id = project_id
+      i.subject = subject
+      i.description = description
+      i.tracker_id = tracker_id
+      i.priority_id = priority_id
+      i.estimated_hours = estimated_hours
+      i.assigned_to = user
+      i
+  end
+
+  def recalculate_parent
+    if parent_id
+      recalculate_attributes_for(parent_id)
     end
+  end
+
+  def recalculate_attributes_for(default_issue_id)
+    if default_issue_id && p = DefaultIssue.find_by_id(default_issue_id)
+      # priority = highest priority of children
+      if priority_position = p.children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
+        p.priority = IssuePriority.find_by_position(priority_position)
+      end
+
+      # start/due dates = lowest/highest dates of children
+      p.start_date = p.children.minimum(:start_date)
+      p.due_date = p.children.maximum(:due_date)
+      if p.start_date && p.due_date && p.due_date < p.start_date
+        p.start_date, p.due_date = p.due_date, p.start_date
+      end
+
+      # estimate = sum of leaves estimates
+      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
+      p.estimated_hours = nil if p.estimated_hours == 0.0
+
+      # ancestors will be recursively updated
+      p.save(:validate => false)
+    end
+  end
+
 
 
 
