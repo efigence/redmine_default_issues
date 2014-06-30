@@ -19,21 +19,22 @@ Redmine::Plugin.register :redmine_default_issues do
     permission :manage_default_issues, :default_issues => [:new, :create, :edit, :update, :destroy] #, { :public => false, :require => :loggedin }
   end
 
+ 
   menu :project_menu, :default_issues, {:controller => "default_issues", :action => "index" },
-    :caption => :label_default_issue_plural, :param => :project_id,
-    :caption => :label_default_issue,
-    :if => Proc.new {
+    :param => :project_id,
+    :caption => :label_default_issue_plural, 
+   :if => Proc.new {
       User.current.allowed_to?({:controller => 'default_issues', :action => 'index'}, nil, {:global => true}) && RedmineDefaultIssues.settings[:show_in_top_menu]
   }
 
-  # menu :admin_menu, :default_issues, {:controller => 'settings', :action => 'plugin', :id => "redmine_default_issues"}, :caption => :label_default_issue_plural
+  menu :project_menu, :default_issue, {:controller => "default_issues", :action => "new"},
+    :param => :project_id,
+    :caption => :label_default_issue_new,
+    :if => Proc.new {
+      User.current.allowed_to?({:controller => 'default_issues', :action => 'new'}, nil, {:global => true}) && RedmineDefaultIssues.settings[:show_in_top_menu]
+  }
 
-  #menu :application_menu, :default_issues,
-  #                        { :controller => 'default_issues', :action => 'index'},
-  #                          :caption => :label_default_issue_plural,
-  #                          :param => :project_id,
-  #                          :if => Proc.new{User.current.allowed_to?({:controller => 'default_issues', :action => 'index'},
-  #                                 nil, {:global => true}) && RedmineDefaultIssues.settings[:show_in_app_menu]}
+
 
   activity_provider :default_issues, :default => false, :class_name => ['DefaultIssue']
 end
@@ -45,3 +46,12 @@ Rails.configuration.to_prepare do
   require_relative "app/concerns/default_issue_assignable.rb"
   Member.send :include, DefaultIssueAssignable
 end
+#----------
+  # menu :admin_menu, :default_issues, {:controller => 'settings', :action => 'plugin', :id => "redmine_default_issues"}, :caption => :label_default_issue_plural
+
+  #menu :application_menu, :default_issues,
+  #                        { :controller => 'default_issues', :action => 'index'},
+  #                          :caption => :label_default_issue_plural,
+  #                          :param => :project_id,
+  #                          :if => Proc.new{User.current.allowed_to?({:controller => 'default_issues', :action => 'index'},
+  #                                 nil, {:global => true}) && RedmineDefaultIssues.settings[:show_in_app_menu]}

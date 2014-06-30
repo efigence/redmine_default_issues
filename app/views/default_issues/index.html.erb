@@ -1,1 +1,40 @@
-<h2>DefaultIssuesController#index</h2>
+<h1>Default issues for <%= @project %></h1>
+<div class="autoscroll">
+<table class="list issues">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Subject</th>
+      <th>Status</th>
+      <th>Description</th>
+      <th>Estimated hours</th>
+      <th>Tracker</th>
+      <th>Priority</th>
+      <th>Role</th>
+      <th>Action</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @default_issues.each do |default_issue| %>
+      <tr>
+        <td><%= default_issue.id if default_issue.parent == nil %></td>
+        <td class="subject"><%= link_to default_issue.subject, project_default_issue_path(@project, default_issue)  %></td>
+        <td><%= default_issue.status_id %></td>
+        <td><%= default_issue.description %></td>
+        <td><%= default_issue.estimated_hours %></td>
+        <td><%= default_issue.tracker_id %></td>
+        <td><%= default_issue.priority_id %></td>
+        <td><%= default_issue.role_id %></td>
+        <td><%= link_to 'Destroy', [@project, default_issue], :confirm => 'Are you sure?',
+                                         :method => :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+<% if User.current.login == "admin" %>
+<%= link_to 'New Default issue', new_project_default_issue_path %>
+<% end %>

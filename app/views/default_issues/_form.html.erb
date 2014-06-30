@@ -1,0 +1,54 @@
+<%= form_for [@project, @default_issue] do |f| %>
+ 
+  <div class="box">
+    <div class="splitcontentleft">
+    <%= f.hidden_field :project_id, :value => @project.id %>
+    <%= f.hidden_field :author_id, :value => User.current.id %>
+  
+    <%= f.label :tracker_id %>
+    <%= f.select :tracker_id, Tracker.all.collect {|t| [t.name, t.id]} %>
+ 
+  
+    <%= f.label :status_id %>
+    <%= f.select :status_id, IssueStatus.all.collect {|is| [is.name, is.id]} %>
+
+
+    <%= f.label :priority_id %>
+    <%= f.select :priority_id, IssuePriority.all.collect {|p| [p.name, p.id]}, :selected => 3 %>
+    
+    <%= f.label :role_id %>
+    <%= f.select :role_id, Role.all.collect {|r| [r.name, r.id]} %>
+
+
+    <%= f.label :parent_id %>
+    <%= f.select :parent_id, DefaultIssue.all.collect {|r| [r.id]},{ :selected => :role_id, :include_blank => true} %>
+  
+    <p>
+      <%= f.label :subject %>
+      <%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %>
+    </p>
+    
+    <%= content_tag 'span', :id => "issue_description_and_toolbar" do %>
+    <%= f.label :description %>
+    <%= f.text_area :description,
+                    :cols => 60,
+                    :rows => 7,
+                    :class => 'wiki-edit',
+                    :no_label => true %>
+    <% end %>
+   
+    <p>
+      <%= f.label :estimated_hours %>
+      <%= f.text_field :estimated_hours, :size => 3 %><%= l(:field_hours) %>
+    </p>
+    
+    <%= f.hidden_field :root_id, :value => :parent_id %>
+    <br />
+
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+
+  </div>
+<% end %>

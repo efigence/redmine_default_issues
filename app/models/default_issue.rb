@@ -1,6 +1,9 @@
 class DefaultIssue < ActiveRecord::Base
   unloadable
-
+  
+  attr_accessible :subject, :status_id, :author_id, :priority_id, :role_id,
+                  :tracker_id, :project_id, :description, :estimated_hours, 
+                  :parent_id
 
   validates :subject, :presence => true
   validates :status_id, :presence => true
