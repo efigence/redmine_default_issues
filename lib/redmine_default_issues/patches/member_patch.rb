@@ -6,8 +6,14 @@ module RedmineDefaultIssues
       def self.included(base) # :nodoc:
         base.class_eval do
           unloadable # Send unloadable so it will not be unloaded in development
-          after_create :create_default_issues
+          after_create :create_default_issues, :unless => :issue_exists?
+          #metoda sprawdzajaca czy sa juz jakies issue dla danego usera i danej roli i w danym projekcie - true or false
         end
+      end
+
+      def issue_exists? 
+        self.reload
+        Issue.where(project_id: self.project_id, assigned_to_id: self.user_id).any?
       end
 
       def create_issues(default_issues, root = nil, parent = nil)

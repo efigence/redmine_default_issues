@@ -2,6 +2,7 @@
  
   <div class="box">
     <div class="splitcontentleft">
+
     <%= f.hidden_field :project_id, :value => @project.id %>
     <%= f.hidden_field :author_id, :value => User.current.id %>
   
@@ -19,10 +20,9 @@
     <%= f.label :role_id %>
     <%= f.select :role_id, Role.all.collect {|r| [r.name, r.id]} %>
 
-
     <%= f.label :parent_id %>
-    <%= f.select :parent_id, DefaultIssue.all.collect {|r| [r.id]},{ :selected => :role_id, :include_blank => true} %>
-  
+    <%= f.select :parent_id, DefaultIssue.all.collect {|r| [r.id]},{:include_blank => true} %>
+    
     <p>
       <%= f.label :subject %>
       <%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %>
@@ -42,7 +42,7 @@
       <%= f.text_field :estimated_hours, :size => 3 %><%= l(:field_hours) %>
     </p>
     
-    <%= f.hidden_field :root_id, :value => :parent_id %>
+
     <br />
 
 
