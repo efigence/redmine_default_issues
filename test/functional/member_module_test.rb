@@ -146,4 +146,18 @@ class MemberModuleTest < ActiveSupport::TestCase
       assert_collection_of_default_issue_with_issue(default_issues, issues)
     end
   end
+
+  test "second time add same member to project" do
+    assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +4 do
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
+      assert member.save
+      member.reload
+      
+      member.destroy
+     
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
+      assert member.save
+      member.reload
+    end
+  end
 end
