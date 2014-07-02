@@ -61,8 +61,4 @@ class DefaultIssue < ActiveRecord::Base
       p.save(:validate => false)
     end
   end
-
-
-
-
 end
