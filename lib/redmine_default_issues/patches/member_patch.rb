@@ -7,7 +7,6 @@ module RedmineDefaultIssues
         base.class_eval do
           unloadable # Send unloadable so it will not be unloaded in development
           after_create :create_default_issues, :unless => :issue_exists?
-          #metoda sprawdzajaca czy sa juz jakies issue dla danego usera i danej roli i w danym projekcie - true or false
         end
       end
 
@@ -16,7 +15,7 @@ module RedmineDefaultIssues
         Issue.where(project_id: self.project_id, assigned_to_id: self.user_id).any?
       end
 
-      def create_issues(default_issues, root = nil, parent = nil)
+      def create_issues(default_issues, root = nil, parent = nil, project_id = self.project_id)
          if default_issues.exists?
             default_issues.each do |default_issue|
               i = default_issue.to_issue(self.user)
@@ -34,9 +33,15 @@ module RedmineDefaultIssues
       def create_default_issues
         Rails.logger.debug '---  create_default_issues'
         self.reload
+        p = Project.find(self.project_id)
         self.roles.each do |role|
-          di = DefaultIssue.where(role_id: role.id, parent_id: nil)
-          create_issues(di) 
+          if p.child? == true
+            di = DefaultIssue.where(role_id: role.id, project_id: self.project_id)
+            create_issues(di)
+          else
+            di = DefaultIssue.where(role_id: role.id, parent_id: nil)
+            create_issues(di)
+          end 
         end
       end
 
