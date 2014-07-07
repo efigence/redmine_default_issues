@@ -8,6 +8,7 @@ class DefaultIssuesController < ApplicationController
   end
 
   def new
+
     @default_issue = DefaultIssue.new
 
     respond_to do |format|
@@ -64,7 +65,6 @@ class DefaultIssuesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
 
   private 
   
