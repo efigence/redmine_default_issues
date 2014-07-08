@@ -14,7 +14,7 @@ module RedmineDefaultIssues::ProjectsHelperPatch
     
     def project_settings_tabs_with_redmine_default_issues
      @tabs = project_settings_tabs_without_redmine_default_issues
-     @action = {:name => 'default_issues', :action => :manage_default_issues, :partial => 'default_issues/form', :label => :label_default_issue_new}
+     @action = {:name => 'new_default_issues', :action => :manage_default_issues, :partial => 'default_issues/form', :label => :label_default_issue_new}
      @tabs << @action        
      @tabs   
     end

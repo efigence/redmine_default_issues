@@ -8,7 +8,6 @@ class DefaultIssuesController < ApplicationController
   end
 
   def new
-
     @default_issue = DefaultIssue.new
 
     respond_to do |format|
@@ -19,10 +18,10 @@ class DefaultIssuesController < ApplicationController
 
   def create
     @default_issue = DefaultIssue.new(params[:default_issue])
-
+    
     respond_to do |format|
       if @default_issue.save
-        format.html { redirect_to(project_default_issues_path, 
+        format.html { redirect_to(new_project_default_issue_path, 
                       :notice => 'Default issue was successfully created.') }
         format.json { render :json => @default_issue, 
                       :status => :created, :location => @default_issue }

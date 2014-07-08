@@ -44,6 +44,14 @@
     <strong>Role:</strong>
     <%= @default_issue.role_id %>
   </p>
+  <p>
+    <strong>Start date:</strong>
+    <%= @default_issue.start_date %>
+  </p>
+   <p>
+    <strong>Due date:</strong>
+    <%= @default_issue.due_date %>
+  </p>
 </div>
 <%= link_to 'Edit', edit_project_default_issue_path(@project, @default_issue) %> |
 <%= link_to 'Back', project_default_issues_path %>

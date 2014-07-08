@@ -3,7 +3,7 @@ class DefaultIssue < ActiveRecord::Base
   
   attr_accessible :subject, :status_id, :author_id, :priority_id, :role_id,
                   :tracker_id, :project_id, :description, :estimated_hours, 
-                  :parent_id, :root_id
+                  :parent_id, :root_id, :start_date, :due_date
 
   validates :subject, :presence => true
   validates :status_id, :presence => true
@@ -30,6 +30,8 @@ class DefaultIssue < ActiveRecord::Base
       i.priority_id = priority_id
       i.estimated_hours = estimated_hours
       i.assigned_to = user
+      i.start_date = start_date
+      i.due_date = due_date
       i
   end
 
