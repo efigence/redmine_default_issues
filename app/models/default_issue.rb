@@ -17,7 +17,7 @@ class DefaultIssue < ActiveRecord::Base
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
 
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-
+  has_and_belongs_to_many :users, :join_table => "#{table_name_prefix}users_default_issues#{table_name_suffix}", :foreign_key => "default_issue_id"
   after_save :recalculate_parent
   
   def to_issue(user)
