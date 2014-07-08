@@ -1,6 +1,43 @@
 <h1>Editing Default Issue</h1>
 
-<%= render 'form' %>
+<%= labelled_form_for @default_issue,
+            :as => :default_issue,
+            :url => {:action => 'update', :id => @default_issue.id},
+            :html => {:method => :put } do |f| %>
+<%= error_messages_for 'default_issue' %>
+<div class="box tabular">
+
+  <%= f.hidden_field :project_id, :value => @project.id %>
+  <%= f.hidden_field :author_id, :value => User.current.id %>
+
+  <p><%= f.select :tracker_id, Tracker.all.collect {|t| [t.name, t.id]} %></p> 
+  <p><%= f.select :status_id, IssueStatus.all.collect {|is| [is.name, is.id]} %></p>
+  <p><%= f.select :priority_id, IssuePriority.all.collect {|p| [p.name, p.id]}, :selected => 3 %></p>
+  <p><%= f.select :role_id, Role.all.collect {|r| [r.name, r.id]} %></p>
+  <p><%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %></p>
+  <%= content_tag 'span', :id => "issue_description_and_toolbar"  do %>
+    <p><%= f.text_area :description, :cols => 60, :rows => 7, :class => 'wiki-edit', :required => true %></p>
+  <% end %>
+  <p><%= f.text_field :estimated_hours, :size => 3, :required => true %><%= l(:field_hours) %></p>
+  <p><%= f.select :parent_id, DefaultIssue.all.collect {|r| [r.id]},{:include_blank => true} %></p>
+  
+  <p id="start_date_area">
+    <%= f.text_field(:start_date, :size => 10) %>
+    <%= calendar_for('default_issue_start_date') %>
+  </p>
+
+  <p id="due_date_area">
+    <%= f.text_field(:due_date, :size => 10) %>
+    <%= calendar_for('default_issue_due_date') %>
+  </p>
+
+  <br />
+<%= submit_tag((@default_issue.nil? || @default_issue.new_record?) ? l(:button_create) : l(:button_save)) %>
+</div>
+
+<% end %>
+
+<% include_calendar_headers_tags %>
 
 <%= link_to 'Show', project_default_issue_path(@project, @default_issue) %> |
 <%= link_to 'Back', project_default_issues_path %>

@@ -36,5 +36,5 @@
 </div>
 <br>
 <% if User.current.login == "admin" %>
-<%= link_to 'New Default issue', new_project_default_issue_path %>
+<%= link_to 'New Default issue', url_for("/projects/#{@project.id}/settings/new_default_issues") %>
 <% end %>
