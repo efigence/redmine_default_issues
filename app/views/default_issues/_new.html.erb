@@ -1,8 +1,8 @@
 
 <%= labelled_form_for @default_issue,
-                   :as => :default_issue,
-                   :url => "/projects/#{@project.id}/default_issues",
-                   :remote => true, :method => 'post' do |f| %>
+           :as => :default_issue,
+           :url => "/projects/#{@project.id}/default_issues",
+           :remote => true, :method => 'post' do |f| %>
 <%= error_messages_for 'default_issue' %>
 <div class="box tabular">
 
@@ -12,11 +12,9 @@
   <p><%= f.select :tracker_id, Tracker.all.collect {|t| [t.name, t.id]}, :required => true %></p> 
   <p><%= f.select :status_id, IssueStatus.all.collect {|is| [is.name, is.id]}, :required => true %></p>
   <p><%= f.select :priority_id, IssuePriority.all.collect {|p| [p.name, p.id]}, :selected => 3, :required => true %></p>
-  <p><%= f.select :role_id, Role.all.collect {|r| [r.name, r.id]}, :required => true %></p>
+  <p><%= f.select :role_id, Role.all.collect {|r| [r.name, r.id]}, :required => true, :include_blank => true %></p>
   <p><%= f.text_field :subject, :size => 80, :maxlength => 255, :required => true %></p>
-  <%= content_tag 'span', :id => "issue_description_and_toolbar"  do %>
-    <p><%= f.text_area :description, :cols => 60, :rows => 7, :class => 'wiki-edit', :required => true %></p>
-  <% end %>
+  <p><%= f.text_area :description, :cols => 60, :rows => 7, :class => 'wiki-edit', :required => true %></p>
   <p><%= f.text_field :estimated_hours, :size => 3, :required => true %><%= l(:field_hours) %></p>
   <p><%= f.select :parent_id, DefaultIssue.all.collect {|r| [r.id]},{:include_blank => true} %></p>
   

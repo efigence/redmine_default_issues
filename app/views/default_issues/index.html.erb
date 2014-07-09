@@ -35,6 +35,6 @@
 </table>
 </div>
 <br>
-<% if User.current.login == "admin" %>
+<% if User.current.admin == true %>
 <%= link_to 'New Default issue', url_for("/projects/#{@project.id}/settings/new_default_issues") %>
 <% end %>

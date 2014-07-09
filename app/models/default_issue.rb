@@ -5,7 +5,10 @@ class DefaultIssue < ActiveRecord::Base
                   :tracker_id, :project_id, :description, :estimated_hours, 
                   :parent_id, :root_id, :start_date, :due_date
 
+  validates :due_date, :date => true
+  validates :start_date, :date => true
   validates :subject, :presence => true
+  validates :role_id, :presence => true
   validates :status_id, :presence => true
   validates :author_id, :presence => true
   validates :priority_id, :presence=> true
@@ -13,8 +16,6 @@ class DefaultIssue < ActiveRecord::Base
   validates :project_id, :presence => true
   validates :description, :presence => true
   validates :estimated_hours, :presence => true
-  validates :start_date, :date => true
-  validates :due_date, :date => true
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
 
