@@ -6,25 +6,28 @@ module RedmineDefaultIssues
       def self.included(base) # :nodoc:
         base.class_eval do
           unloadable # Send unloadable so it will not be unloaded in development
-          after_create :create_default_issues, :unless => :issue_exists?
+          after_create :create_default_issues #, :unless => :issue_exists?
         end
       end
 
-      def issue_exists? 
-        self.reload
-        Issue.where(project_id: self.project_id, assigned_to_id: self.user_id).any?
-      end
+      #def issue_exists? 
+      #  self.reload
+      #  Issue.where(project_id: self.project_id, assigned_to_id: self.user_id).any?
+      #end
 
       def create_issues(default_issues, root = nil, parent = nil, project_id = self.project_id)
          if default_issues.exists?
             default_issues.each do |default_issue|
-              i = default_issue.to_issue(self.user)
-              i.root_id = root.id if root
-              i.parent_id = parent.id if parent
-              if i.save
-                create_issues(default_issue.children, root || i, i)
-              else
-                Rails.logger.error "--- cannot create default issue \n #{default_issue.inspect} \n #{i.errors.inspect}"
+              unless default_issue.user_ids.include?(self.user_id)
+                i = default_issue.to_issue(self.user)
+                i.root_id = root.id if root
+                i.parent_id = parent.id if parent
+                if i.save
+                  create_issues(default_issue.children, root || i, i)
+                  default_issue.users << self.user
+                else
+                  Rails.logger.error "--- cannot create default issue \n #{default_issue.inspect} \n #{i.errors.inspect}"
+                end
               end
             end
           end
