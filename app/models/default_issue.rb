@@ -13,6 +13,8 @@ class DefaultIssue < ActiveRecord::Base
   validates :project_id, :presence => true
   validates :description, :presence => true
   validates :estimated_hours, :presence => true
+  validates :start_date, :date => true
+  validates :due_date, :date => true
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
 
