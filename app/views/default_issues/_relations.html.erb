@@ -1,0 +1,43 @@
+<div class="contextual">
+<% if User.current.allowed_to?(:manage_issue_relations, @project) %>
+  <%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'relation_issue_to_id'} %>
+<% end %>
+</div>
+
+<p><strong><%=l(:label_related_default_issues)%></strong></p>
+
+<% if @relations.present? %>
+<form>
+<table class="list issues">
+<% @relations.each do |relation| %>
+  <% other_default_issue = relation.other_default_issue(@default_issue) -%>
+  <tr class="issue hascontextmenu" id="relation-<%= relation.id %>">
+  <td class="checkbox"><%= check_box_tag("ids[]", other_default_issue.id, false, :id => nil) %></td>
+  <td class="subject">
+    <%= l(relation.label_for(@default_issue)) %>
+    <%= "(#{l('datetime.distance_in_words.x_days', :count => relation.delay)})" if relation.delay && relation.delay != 0 %>
+    <%= link_to "##{other_default_issue.id}", project_default_issue_path(@project, other_default_issue)  %>
+  </td>
+  <td class="status"><%=h other_default_issue.status_id %></td>
+  <td class="start_date"><%= format_date(other_default_issue.start_date) %></td>
+  <td class="due_date"><%= format_date(other_default_issue.due_date) %></td>
+  <td class="buttons"><%= link_to image_tag('link_break.png'),
+                                  relation_path(relation),
+                                  :remote => true,
+                                  :method => :delete,
+                                  :data => {:confirm => l(:text_are_you_sure)},
+                                  :title => l(:label_relation_delete) %></td>
+  </tr>
+<% end %>
+</table>
+</form>
+<% end %>
+
+<%= form_for @relation, {
+                 :as => :relation, :remote => true,
+                 :url => default_issue_relations_path(@project, @default_issue),
+                 :method => :post,
+                 :html => {:id => 'new-relation-form', :style => 'display: none;'}
+               } do |f| %>
+<%= render :partial => 'default_issue_relations/form', :locals => {:f => f}%>
+<% end %>

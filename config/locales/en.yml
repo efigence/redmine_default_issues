@@ -7,7 +7,9 @@ en:
   label_default_issue_created: Default issue was successfully created.
   label_default_issue_updated: Default issue was successfully updated.
   label_default_issue_destroyed: Default issue was successfully deleted.
-
+  label_related_default_issues: Related default issues
+  label_default_issue_view_all: View all default issues\
+  label_default_issue_plural: Default issues
   project_module_default_issues: Default issues
 
   label_default_issues_show_in_top_menu: Show in top menu
@@ -17,5 +19,8 @@ en:
   permission_edit_default_issues: Edit default issues
   permission_edit_own_default_issues: Edit own default issues
   permission_delete_default_issues: Delete default issues
+  permission_manage_default_issue_relations: Manage default issue relations
 
   label_related_default_issues: Related default issues
+
+  cant_link_an_default_issue_with_a_descendant: An default issue cannot be linked to one of its subtasks

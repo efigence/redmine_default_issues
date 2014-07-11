@@ -24,7 +24,7 @@ Redmine::Plugin.register :redmine_default_issues do
   project_module :default_issues do
     permission :view_default_issues, :default_issues => [:index, :show]#, :public => false
     permission :manage_default_issues, :default_issues => [:new, :create, :edit, :update, :destroy]#, :public => false
-    
+    permission :manage_default_issue_relations, :default_issue_relations => [:create, :edit, :update, :destroy]
   end
 
   menu :project_menu, :default_issues, {:controller => "default_issues", :action => "index"},

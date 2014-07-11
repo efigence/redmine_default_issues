@@ -1,6 +1,6 @@
 class DefaultIssuesController < ApplicationController
   unloadable
-
+  helper :default_issue_relations
   before_filter :find_project, :authorize, :only => [:index, :new, :create, :show, :edit, :update]
    
   def index
@@ -21,7 +21,7 @@ class DefaultIssuesController < ApplicationController
     
     respond_to do |format|
       if @default_issue.save
-        format.html { redirect_to(new_project_default_issue_path, 
+        format.html { redirect_to(project_default_issue_path, 
                       :notice => 'Default issue was successfully created.') }
         format.json { render :json => @default_issue, 
                       :status => :created, :location => @default_issue }
@@ -49,6 +49,7 @@ class DefaultIssuesController < ApplicationController
   
   def show
     @default_issue = DefaultIssue.find(params[:id])
+    @relations = @default_issue.relations
   end
 
   def edit

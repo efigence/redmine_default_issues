@@ -1,4 +1,7 @@
-<h1>Default issues for <%= @project %></h1>
+<h2>Default issues</h2>
+<% if @default_issues.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
 <div class="autoscroll">
 <table class="list issues">
   <thead>
@@ -17,6 +20,7 @@
   </thead>
 
   <tbody>
+   
     <% @default_issues.each do |default_issue| %>
       <tr>
         <td><%= default_issue.id if default_issue.parent == nil %></td>
@@ -27,13 +31,20 @@
         <td><%= default_issue.tracker_id %></td>
         <td><%= default_issue.priority_id %></td>
         <td><%= default_issue.role_id %></td>
+        <% if User.current.admin == true %>
         <td><%= link_to 'Destroy', [@project, default_issue], :confirm => 'Are you sure?',
                                          :method => :delete %></td>
+        <% end %>
       </tr>
     <% end %>
+    
   </tbody>
 </table>
 </div>
+<% end %>
+<% content_for :sidebar do %>
+    <%= render :partial => 'default_issues/sidebar' %>
+<% end %>
 <br>
 <% if User.current.admin == true %>
 <%= link_to 'New Default issue', url_for("/projects/#{@project.id}/settings/new_default_issues") %>

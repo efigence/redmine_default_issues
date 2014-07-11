@@ -1,0 +1,7 @@
+$('#relations').html('<%= escape_javascript(render :partial => 'default_issues/relations') %>');
+<% if @relation.errors.empty? %>
+  $('#relation_delay').val('');
+  $('#relation_default_issue_to_id').val('');
+  $('#relation_default_issue_to_id').focus();
+<% end %>
+$('#new-relation-form').show();

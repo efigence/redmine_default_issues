@@ -52,6 +52,18 @@
     <strong>Due date:</strong>
     <%= @default_issue.due_date %>
   </p>
+  
+  <hr />
+  <div id="relations">
+    <%= render :partial => 'relations' %>
+  </div>
+
 </div>
+
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'default_issues/sidebar' %>
+<% end %>
+<br />
 <%= link_to 'Edit', edit_project_default_issue_path(@project, @default_issue) %> |
 <%= link_to 'Back', project_default_issues_path %>

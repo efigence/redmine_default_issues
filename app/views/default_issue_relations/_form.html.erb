@@ -1,0 +1,15 @@
+<%= error_messages_for 'relation' %>
+
+<p><%= f.select :relation_type, collection_for_relation, {}, :onchange => "setPredecessorFieldsVisibility();" %>
+<%= l(:label_default_issue) %> #<%= f.text_field :default_issue_to_id, :size => 10 %>
+<span id="predecessor_fields" style="display:none;">
+<%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
+</span>
+<%= submit_tag l(:button_add) %>
+<%= link_to_function l(:button_cancel), '$("#new-relation-form").hide();'%>
+</p>
+
+<%= javascript_tag "observeAutocompleteField('relation_default_issue_to_id', 
+'#{escape_javascript df_auto_complete_default_issues_path(:project_id => @project, :scope => ( 'all'))}')" %>
+
+<%= javascript_tag "setPredecessorFieldsVisibility();" %>

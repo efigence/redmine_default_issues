@@ -7,7 +7,9 @@ pl:
   label_default_issue_created: Domyślne zagadnienie zostało utworzone.
   label_default_issue_updated: Domyślne zagadnienie zostało zaktualizowane.
   label_default_issue_destroyed: Domyślne zagadnienie zostało usunięte.
-
+  label_related_default_issues: Powiązane domyślne zagadnienia
+  label_default_issue_view_all: Pokaż wszystkie domyślne zagadnienia
+  label_default_issue_plural: Domyślne zagadnienia
   project_module_default_issues: Domyślne zadania
 
   label_default_issues_show_in_top_menu: Pokaż w górnym menu
@@ -17,5 +19,7 @@ pl:
   permission_edit_default_issues: Edycja domyślnych zagadnień
   permission_edit_own_default_issues: Edycja własnych domyślnych zagadnień
   permission_delete_default_issues: Usuwanie domyślnych zagadnień
-
+  permission_manage_default_issue_relations: Zarządzanie relacjami domyślnych zagadnień
   label_related_default_issues: Powiązane domyślne zagadnienia
+
+  cant_link_an_default_issue_with_a_descendant: Domyślne zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień
