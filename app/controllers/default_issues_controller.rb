@@ -1,5 +1,6 @@
 class DefaultIssuesController < ApplicationController
   unloadable
+  
   helper :default_issue_relations
   before_filter :find_project, :authorize, :only => [:index, :new, :create, :show, :edit, :update]
    

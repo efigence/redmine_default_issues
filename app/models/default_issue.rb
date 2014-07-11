@@ -262,10 +262,4 @@ class DefaultIssue < ActiveRecord::Base
         [(@parent_issue || parent).try(:soonest_start)]
       ).compact.max
   end
-  
-  #This is for auto-completes 
-  #def to_s
-  #   "#{tracker} ##{id}: #{subject}"
-  # end
-
 end

@@ -10,6 +10,6 @@
 </p>
 
 <%= javascript_tag "observeAutocompleteField('relation_default_issue_to_id', 
-'#{escape_javascript df_auto_complete_default_issues_path(:project_id => @project, :scope => ( 'all'))}')" %>
+'#{escape_javascript project_default_issue_auto_complete_path(@project, @default_issue, :scope => ( 'all'))}')" %>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

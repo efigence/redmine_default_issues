@@ -23,3 +23,5 @@ pl:
   label_related_default_issues: Powiązane domyślne zagadnienia
 
   cant_link_an_default_issue_with_a_descendant: Domyślne zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień
+
+  field_action: Akcje

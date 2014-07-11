@@ -8,7 +8,7 @@ en:
   label_default_issue_updated: Default issue was successfully updated.
   label_default_issue_destroyed: Default issue was successfully deleted.
   label_related_default_issues: Related default issues
-  label_default_issue_view_all: View all default issues\
+  label_default_issue_view_all: View all default issues
   label_default_issue_plural: Default issues
   project_module_default_issues: Default issues
 
@@ -24,3 +24,5 @@ en:
   label_related_default_issues: Related default issues
 
   cant_link_an_default_issue_with_a_descendant: An default issue cannot be linked to one of its subtasks
+
+  field_action: Actions

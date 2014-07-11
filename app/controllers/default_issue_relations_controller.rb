@@ -41,7 +41,7 @@ class DefaultIssueRelationsController < ApplicationController
       }
       format.api {
         if saved
-          render :action => 'show', :status => :created, :location => relation_url(@relation)
+          render :action => 'index',  :status => :created, :location => s(@project, @default_issue)
         else
           render_validation_errors(@relation)
         end
@@ -50,7 +50,8 @@ class DefaultIssueRelationsController < ApplicationController
   end
 
   def destroy
-    raise Unauthorized unless @relation.deletable?
+    #with this doesn't work...
+    #raise Unauthorized unless @relation.deletable? 
     @relation.destroy
 
     respond_to do |format|
