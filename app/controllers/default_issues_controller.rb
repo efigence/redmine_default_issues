@@ -22,10 +22,11 @@ class DefaultIssuesController < ApplicationController
     
     respond_to do |format|
       if @default_issue.save
-        format.html { redirect_to(project_default_issue_path, 
+        format.html { redirect_to(project_default_issues_path, 
                       :notice => 'Default issue was successfully created.') }
         format.json { render :json => @default_issue, 
                       :status => :created, :location => @default_issue }
+        format.js {render js: %(window.location.href='#{project_default_issues_path @project}')}
       else
         format.html { render :action => "new" }
         format.json { render :json => @default_issue.errors, 
