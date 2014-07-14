@@ -4,7 +4,15 @@ require File.expand_path('../../../lib/redmine_default_issues/patches/member_pat
 class MemberModuleTest < ActiveSupport::TestCase
   self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')
 
-  fixtures :roles, :trackers, :projects_trackers, :enumerations, :projects, :users, :issue_statuses, :default_issues
+  fixtures :roles, 
+           :trackers,
+           :projects_trackers, 
+           :enumerations, 
+           :projects, 
+           :users, 
+           :issue_statuses, 
+           :default_issues,
+           :default_issue_relations
 
 
   def assert_default_issue_with_issue(default_issue, issue)
@@ -160,4 +168,40 @@ class MemberModuleTest < ActiveSupport::TestCase
       member.reload
     end
   end
+
+  test 'add same user to many projects on the same level' do
+    assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +3 do
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1])
+      assert member.save
+    end
+ 
+    assert_difference 'Issue.where(project_id: 2, assigned_to_id: 4).count', +1 do
+      member_cop = Member.new(:project_id => 2, :user_id => 4, :role_ids => [1])
+      assert member_cop.save
+    end 
+  end
+
+  test 'add same user to many projects, parent and child' do
+    assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +3 do
+      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1])
+      assert member.save
+    end
+ 
+    assert_difference 'Issue.where(project_id: 3, assigned_to_id: 4).count', +1 do
+      member_cop = Member.new(:project_id => 3, :user_id => 4, :role_ids => [1])
+      assert member_cop.save
+    end 
+  end
+
+
+ # test "new issue relations from default issue relations" do
+#    assert_difference 'IssueRelation.count', +2 do
+#      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
+#      assert member.save
+#      member.reload
+#      from = 
+#      to = 
+#      issues = IssueRelation.where()
+ #   end
+#  end
 end

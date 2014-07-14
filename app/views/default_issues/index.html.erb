@@ -6,9 +6,10 @@
 <table class="list issues">
   <thead>
     <tr>
-      <th>Id</th>
-      <th><%=l(:field_subject)%></th>
+      <th>#</th>
+      <th>parent #</th>
       <th><%=l(:field_status)%></th>
+      <th><%=l(:field_subject)%></th>
       <th><%=l(:field_description)%></th>
       <th><%=l(:field_estimated_hours)%></th>
       <th><%=l(:field_tracker)%></th>
@@ -23,10 +24,11 @@
   <tbody>
    
     <% @default_issues.each do |default_issue| %>
-      <tr>
-        <td><%= default_issue.id if default_issue.parent == nil %></td>
-        <td class="subject"><%= link_to default_issue.subject.truncate(20), project_default_issue_path(@project, default_issue)  %></td>
+      <tr class="hascontextmenu">
+        <td class="id"><%= default_issue.id %></td>
+        <td class="id"><%= default_issue.parent_id %></td>
         <td><%= default_issue.status_id %></td>
+        <td class="subject"><%= link_to default_issue.subject.truncate(20), project_default_issue_path(@project, default_issue)  %></td>
         <td><%= default_issue.description.truncate(20) %></td>
         <td><%= default_issue.estimated_hours %></td>
         <td><%= default_issue.tracker_id %></td>
@@ -45,14 +47,13 @@
     <% end %>
   </tbody>
 </table>
-
+</div>
+<% end %>
 <div class="contextual">
 <% if User.current.allowed_to?(:manage_default_issues, @project) %>
-<%= link_to '', url_for("/projects/#{@project.id}/settings/new_default_issues"), :class => 'icon icon-add' %>
+<%= link_to '', new_project_default_issue_path(@project), :class => 'icon icon-add' %>
 <% end %>
 </div>
-</div>
-<% end %>
 <% content_for :sidebar do %>
     <%= render :partial => 'default_issues/sidebar' %>
 <% end %>

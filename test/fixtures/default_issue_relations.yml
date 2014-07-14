@@ -1,0 +1,12 @@
+default_issue_relation_001:
+  id: 1
+  default_issue_from_id: 1
+  default_issue_to_id: 4
+  relation_type: blocks
+  delay:
+default_issue_relation_002:
+  id: 2
+  default_issue_from_id: 2
+  default_issue_to_id: 4
+  relation_type: relates
+  delay:

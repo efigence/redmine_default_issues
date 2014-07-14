@@ -44,6 +44,10 @@ class DefaultIssue < ActiveRecord::Base
       i
   end
 
+  #def relation_default_issue_to_issue_relation(default_issue_id)
+    #d = DefaultIssueRelation.
+  #end
+
   def recalculate_parent
     if parent_id
       recalculate_attributes_for(parent_id)

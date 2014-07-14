@@ -29,7 +29,6 @@
 
   <br />
 <%= submit_tag((@default_issue.nil? || @default_issue.new_record?) ? l(:button_create) : l(:button_save)) %>
-<%= link_to 'cancel', project_default_issues_path(@project) %>
 </div>
 <% end %>
 

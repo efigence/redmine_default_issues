@@ -69,3 +69,37 @@ defaultissues_004:
   due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
   role_id: 2
   estimated_hours: 4
+defaultissues_005: 
+  id: 5
+  created_on: <%= 1.days.ago.to_s(:db) %>
+  project_id: 2
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: You should TO DO LIST
+  category_id: 1
+  description: Unable to print recipes
+  root_id: 5
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 5.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3
+defaultissues_006: 
+  id: 6
+  created_on: <%= 1.days.ago.to_s(:db) %>
+  project_id: 3
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: You should ... CHILD TEST
+  category_id: 1
+  description: Unable to print recipes
+  root_id: 6
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 5.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3

@@ -6,16 +6,11 @@ module RedmineDefaultIssues
       def self.included(base) # :nodoc:
         base.class_eval do
           unloadable # Send unloadable so it will not be unloaded in development
-          after_create :create_default_issues #, :unless => :issue_exists?
+          after_create :create_default_issues
         end
       end
 
-      #def issue_exists? 
-      #  self.reload
-      #  Issue.where(project_id: self.project_id, assigned_to_id: self.user_id).any?
-      #end
-
-      def create_issues(default_issues, root = nil, parent = nil, project_id = self.project_id)
+      def create_issues(default_issues, root = nil, parent = nil)
          if default_issues.exists?
             default_issues.each do |default_issue|
               unless default_issue.user_ids.include?(self.user_id)
@@ -36,15 +31,9 @@ module RedmineDefaultIssues
       def create_default_issues
         Rails.logger.debug '---  create_default_issues'
         self.reload
-        p = Project.find(self.project_id)
         self.roles.each do |role|
-          if p.child? == true
-            di = DefaultIssue.where(role_id: role.id, project_id: self.project_id)
-            create_issues(di)
-          else
-            di = DefaultIssue.where(role_id: role.id, parent_id: nil)
-            create_issues(di)
-          end 
+          di = DefaultIssue.where(role_id: role.id, parent_id: nil, project_id: self.project_id)
+          create_issues(di)       
         end
       end
 

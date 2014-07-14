@@ -1,13 +1,6 @@
 require "redmine"
 require "redmine_default_issues"
 require "redmine_default_issues/version"
-require 'redmine_default_issues/projects_helper_patch'
-
-Rails.configuration.to_prepare do
-  unless ProjectsHelper.included_modules.include? RedmineDefaultIssues::ProjectsHelperPatch
-    ProjectsHelper.send(:include, RedmineDefaultIssues::ProjectsHelperPatch)
-  end
-end
 
 Redmine::Plugin.register :redmine_default_issues do
   name 'Redmine default issues plugin'

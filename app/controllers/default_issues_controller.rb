@@ -5,7 +5,7 @@ class DefaultIssuesController < ApplicationController
   before_filter :find_project, :authorize, :only => [:index, :new, :create, :show, :edit, :update]
    
   def index
-    @default_issues = DefaultIssue.where(project_id:@project)
+    @default_issues = DefaultIssue.where(project_id:@project).order('parent_id')
   end
 
   def new
@@ -26,7 +26,7 @@ class DefaultIssuesController < ApplicationController
                       :notice => 'Default issue was successfully created.') }
         format.json { render :json => @default_issue, 
                       :status => :created, :location => @default_issue }
-        format.js {render js: %(window.location.href='#{project_default_issues_path @project}')}
+       # format.js {render js: %(window.location.href='#{project_default_issues_path @project}')}
       else
         format.html { render :action => "new" }
         format.json { render :json => @default_issue.errors, 
