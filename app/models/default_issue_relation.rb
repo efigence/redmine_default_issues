@@ -56,7 +56,20 @@ class DefaultIssueRelation < ActiveRecord::Base
   attr_protected :default_issue_from_id, :default_issue_to_id
   before_save :handle_default_issue_order
   #after_create  :create_journal_after_create
- # after_destroy :create_journal_after_delete
+  #after_destroy :create_journal_after_delete
+
+  
+  def to_issue_relation(issue_from, issue_to)
+    iss_r = IssueRelation.where(issue_from_id: issue_from.id, issue_to_id: issue_to.id).first
+    unless iss_r
+      iss_r = IssueRelation.new
+      iss_r.issue_from = issue_from
+      iss_r.issue_to = issue_to
+      iss_r.relation_type = relation_type
+      iss_r.delay = delay
+    end
+    iss_r
+  end
 
   def visible?(user=User.current)
     (default_issue_from.nil? || default_issue_from.visible?(user)) && 

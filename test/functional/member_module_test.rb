@@ -15,6 +15,7 @@ class MemberModuleTest < ActiveSupport::TestCase
            :default_issue_relations
 
 
+
   def assert_default_issue_with_issue(default_issue, issue)
     [:subject, :description, :tracker_id, :status_id, :author_id, :priority_id, :project_id, :estimated_hours].each do |attr|
       assert_equal issue.send(attr), default_issue.send(attr), "mismatched #{attr}"
@@ -155,7 +156,7 @@ class MemberModuleTest < ActiveSupport::TestCase
     end
   end
 
-  test "second time add same member to project" do
+  test "second time add same member to project, should not change issue count twice" do
     assert_difference 'Issue.where(project_id: 1, assigned_to_id: 4).count', +4 do
       member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
       assert member.save
@@ -174,7 +175,7 @@ class MemberModuleTest < ActiveSupport::TestCase
       member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1])
       assert member.save
     end
- 
+
     assert_difference 'Issue.where(project_id: 2, assigned_to_id: 4).count', +1 do
       member_cop = Member.new(:project_id => 2, :user_id => 4, :role_ids => [1])
       assert member_cop.save
@@ -193,15 +194,19 @@ class MemberModuleTest < ActiveSupport::TestCase
     end 
   end
 
+  test "relations should be created only with same role" do
+    assert_difference 'IssueRelation.count', +1 do
+      member = Member.new(:project_id => 7, :user_id => 4, :role_ids => [1])
+      assert member.save, member.errors.inspect
+    end 
+  end
 
- # test "new issue relations from default issue relations" do
-#    assert_difference 'IssueRelation.count', +2 do
-#      member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
-#      assert member.save
-#      member.reload
-#      from = 
-#      to = 
-#      issues = IssueRelation.where()
- #   end
-#  end
+
+  test 'with transaction and fail data issue realtion count should not change by 1' do
+    assert_no_difference 'IssueRelation.count' do
+      member = Member.new(:project_id => 8, :user_id => 4, :role_ids => [2])
+      assert member.save, member.errors.inspect
+      #puts member.errors.inspect
+    end
+  end
 end

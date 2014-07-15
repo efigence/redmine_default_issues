@@ -44,3 +44,12 @@ projects_trackers_014:
 projects_trackers_015: 
   project_id: 6
   tracker_id: 1
+projects_trackers_016: 
+  project_id: 7
+  tracker_id: 1
+projects_trackers_017: 
+  project_id: 7
+  tracker_id: 2
+projects_trackers_018: 
+  project_id: 8
+  tracker_id: 2

@@ -25,3 +25,5 @@ pl:
   cant_link_an_default_issue_with_a_descendant: Domyślne zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień
 
   field_action: Akcje
+
+  greater_then_zero: Estymowany czas nie może być mniejszy/równy zero!

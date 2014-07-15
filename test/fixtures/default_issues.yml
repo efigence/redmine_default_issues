@@ -103,3 +103,88 @@ defaultissues_006:
   due_date: <%= 5.day.from_now.to_date.to_s(:db) %>
   role_id: 1
   estimated_hours: 3
+defaultissues_007: 
+  id: 7
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 7
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: You should 7
+  category_id: 1
+  description: Unable to print recipes
+  root_id: 7
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+defaultissues_008: 
+  id: 8
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 7
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada 8
+  category_id: 1
+  description: Unable to print recipes
+  root_id: 8
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 2.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 11.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3
+defaultissues_009: 
+  id: 9
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 7
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada 9
+  category_id: 1
+  description: Unable to print recipes
+  root_id: 9
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 3.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 12.day.from_now.to_date.to_s(:db) %>
+  role_id: 2
+  estimated_hours: 3
+defaultissues_010: 
+  id: 10
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 8
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada 10
+  category_id: 
+  description: 
+  root_id: 10
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 3.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 12.day.from_now.to_date.to_s(:db) %>
+  role_id: 2
+  estimated_hours: 3
+defaultissues_011: 
+  id: 11
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 8
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada 11
+  category_id: 
+  description: 
+  root_id: 11
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 3.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 12.day.from_now.to_date.to_s(:db) %>
+  role_id: 3
+  estimated_hours: 3

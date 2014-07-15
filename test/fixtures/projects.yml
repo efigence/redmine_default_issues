@@ -71,3 +71,27 @@ projects_006:
   parent_id: 5
   lft: 3
   rgt: 4
+projects_007: 
+  created_on: 2009-07-19 19:15:51 +02:00
+  name: project 7
+  updated_on: 2009-07-19 19:17:07 +02:00
+  id: 7
+  description: This is a project 7
+  homepage: ""
+  is_public: true
+  identifier: project6
+  parent_id: 
+  lft: 5
+  rgt: 6
+projects_008: 
+  created_on: 2009-07-19 19:15:51 +02:00
+  name: project 7
+  updated_on: 2009-07-19 19:17:07 +02:00
+  id: 8
+  description: This is a project 7
+  homepage: ""
+  is_public: true
+  identifier: project6
+  parent_id: 
+  lft: 7
+  rgt: 9

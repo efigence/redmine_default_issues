@@ -26,7 +26,6 @@ class DefaultIssuesController < ApplicationController
                       :notice => 'Default issue was successfully created.') }
         format.json { render :json => @default_issue, 
                       :status => :created, :location => @default_issue }
-       # format.js {render js: %(window.location.href='#{project_default_issues_path @project}')}
       else
         format.html { render :action => "new" }
         format.json { render :json => @default_issue.errors, 

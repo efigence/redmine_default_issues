@@ -15,7 +15,8 @@ class DefaultIssue < ActiveRecord::Base
   validates :tracker_id, :presence => true
   validates :project_id, :presence => true
   validates :description, :presence => true
-  validates :estimated_hours, :presence => true
+  validates :estimated_hours, :presence => true, :numericality => true
+  validate :validate_default_issue_estimated_hours
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
 
@@ -27,7 +28,14 @@ class DefaultIssue < ActiveRecord::Base
   
   has_many :relations_from, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_to_id', :dependent => :delete_all
-
+  
+  def validate_default_issue_estimated_hours
+    if due_date != nil
+      if due_date < start_date
+        errors.add :due_date, :greater_than_start_date
+      end
+    end
+  end
 
   def to_issue(user)
       i = Issue.new
@@ -43,11 +51,7 @@ class DefaultIssue < ActiveRecord::Base
       i.due_date = due_date
       i
   end
-
-  #def relation_default_issue_to_issue_relation(default_issue_id)
-    #d = DefaultIssueRelation.
-  #end
-
+  
   def recalculate_parent
     if parent_id
       recalculate_attributes_for(parent_id)

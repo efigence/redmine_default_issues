@@ -1,5 +1,6 @@
 # English strings go here for Rails i18n
 en:
+
   label_default_issue: Default issues
   label_default_issue_plural: Default issues
   label_default_issue_new: New default issue
@@ -22,7 +23,6 @@ en:
   permission_manage_default_issue_relations: Manage default issue relations
 
   label_related_default_issues: Related default issues
-
   cant_link_an_default_issue_with_a_descendant: An default issue cannot be linked to one of its subtasks
-
   field_action: Actions
+  greater_then_zero: Estimated hours can't be less then zero - should be greater then zero!
