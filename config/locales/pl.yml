@@ -22,8 +22,15 @@ pl:
   permission_manage_default_issue_relations: Zarządzanie relacjami domyślnych zagadnień
   label_related_default_issues: Powiązane domyślne zagadnienia
 
-  cant_link_an_default_issue_with_a_descendant: Domyślne zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień
 
+  activerecord:
+    errors:
+      models:
+        default_issue_relation:
+          attributes:
+            default_issue_to_id:
+              cant_link_an_default_issue_with_a_descendant: Domyślne zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień
+              cant_create_relation_with_different_roles: Relacja nie może być utworzona - domyślne zagadnienia maja inne role
   field_action: Akcje
 
   greater_then_zero: Estymowany czas nie może być mniejszy/równy zero!

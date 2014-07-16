@@ -51,13 +51,13 @@ module RedmineDefaultIssues
       def create_default_issues
         Rails.logger.debug '---  create_default_issues'
         self.reload
-        #DefaultIssue.transaction do
+        DefaultIssue.transaction do
           self.roles.each do |role|
             di = DefaultIssue.where(role_id: role.id, parent_id: nil, project_id: self.project_id)
             create_issues(di)
             create_issue_relations(di)
           end    
-        #end
+        end
       end
     end
   end

@@ -35,7 +35,9 @@ class DefaultIssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to project_default_issue_path(@default_issue) }
-      format.js {render js: %(window.location.href='#{project_default_issue_path(@project, @default_issue)}')}
+      format.js do
+        @relations = @default_issue.reload.relations
+      end
       format.api {
         if saved
           render :action => 'index',  :status => :created, :location => s(@project, @default_issue)

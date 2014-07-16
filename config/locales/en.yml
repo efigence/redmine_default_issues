@@ -23,6 +23,14 @@ en:
   permission_manage_default_issue_relations: Manage default issue relations
 
   label_related_default_issues: Related default issues
-  cant_link_an_default_issue_with_a_descendant: An default issue cannot be linked to one of its subtasks
+
+  activerecord:
+    errors:
+      models:
+        default_issue_relation:
+          attributes:
+            default_issue_to_id:
+              cant_link_an_default_issue_with_a_descendant: An default issue cannot be linked to one of its subtasks
+              cant_create_relation_with_different_roles: Relation can't be created - default issues have different roles
   field_action: Actions
   greater_then_zero: Estimated hours can't be less then zero - should be greater then zero!

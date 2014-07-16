@@ -1,6 +1,6 @@
 resources :projects do
   resources :default_issues do
-    match '/auto_complete', :to => 'df_auto_completes#default_issues', :via => :get
+    get '/auto_complete', :to => 'df_auto_completes#default_issues'
     shallow do
       resources :relations, :controller => 'default_issue_relations', :only => [:index, :show, :create]
     end

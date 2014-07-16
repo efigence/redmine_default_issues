@@ -16,6 +16,7 @@ class MemberModuleTest < ActiveSupport::TestCase
 
 
 
+
   def assert_default_issue_with_issue(default_issue, issue)
     [:subject, :description, :tracker_id, :status_id, :author_id, :priority_id, :project_id, :estimated_hours].each do |attr|
       assert_equal issue.send(attr), default_issue.send(attr), "mismatched #{attr}"
@@ -202,11 +203,14 @@ class MemberModuleTest < ActiveSupport::TestCase
   end
 
 
-  test 'with transaction and fail data issue realtion count should not change by 1' do
-    assert_no_difference 'IssueRelation.count' do
-      member = Member.new(:project_id => 8, :user_id => 4, :role_ids => [2])
-      assert member.save, member.errors.inspect
-      #puts member.errors.inspect
+  test 'trying create relation with different role' do
+    assert_no_difference 'DefaultIssueRelation.count' do
+      relation = DefaultIssueRelation.new
+      relation.default_issue_from_id = 10
+      relation.default_issue_to_id = 11
+      relation.relation_type = 'relates'
+      assert !relation.save, "relation saved"
     end
   end
+
 end

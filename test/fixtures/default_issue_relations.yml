@@ -10,9 +10,9 @@ default_issue_relation_002:
   default_issue_to_id: 9
   relation_type: blocks
   delay:
-default_issue_relation_003:
-  id: 3
-  default_issue_from_id: 10
-  default_issue_to_id: 11
-  relation_type: blocks
-  delay:
+# default_issue_relation_003:
+#   id: 3
+#   default_issue_from_id: 10
+#   default_issue_to_id: 11
+#   relation_type: blocks
+#   delay:
