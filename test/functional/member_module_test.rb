@@ -256,9 +256,13 @@ class MemberModuleTest < ActiveSupport::TestCase
   end
 
   test 'child(leaves) releted on same level' do
-    assert_difference 'IssueRelation.count', +1 do
-      member = Member.new(:project_id => 10, :user_id => 4, :role_ids => [1])
-      assert member.save, member.errors.inspect
+    assert_difference 'Member.count', +1 do
+      assert_difference 'Issue.count', +3 do
+        assert_difference 'IssueRelation.count', +1 do
+          member = Member.new(:project_id => 10, :user_id => 4, :role_ids => [1])
+          assert member.save, member.errors.inspect
+        end
+      end
     end
   end
 end

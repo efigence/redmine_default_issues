@@ -5,7 +5,7 @@ class DefaultIssuesController < ApplicationController
   before_filter :find_project, :authorize, :only => [:index, :new, :create, :show, :edit, :update]
    
   def index
-    @default_issues = DefaultIssue.where(project_id:@project).order('parent_id')
+    @default_issues = DefaultIssue.where(project_id:@project).order('subject')
   end
 
   def new
