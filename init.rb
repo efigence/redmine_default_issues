@@ -26,11 +26,13 @@ Redmine::Plugin.register :redmine_default_issues do
 
 
   activity_provider :default_issues, :default => false, :class_name => ['DefaultIssue']
+  activity_provider :users_default_issues, :default => false, :class_name => ['DefaultIssueMember']
 end
 
 Rails.configuration.to_prepare do
   require "redmine_default_issues/patches/project_patch"
   require "redmine_default_issues/patches/member_patch"
+  require "redmine_default_issues/patches/issue_patch"
   require_relative "app/helpers/default_issues_helper.rb"
   require_relative "app/concerns/default_issue_assignable.rb"
   Member.send :include, DefaultIssueAssignable

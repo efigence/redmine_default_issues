@@ -213,4 +213,52 @@ class MemberModuleTest < ActiveSupport::TestCase
     end
   end
 
+  test 'create child default issue should not be possible when parent has diffrent role' do
+    assert_no_difference 'DefaultIssue.count' do
+      #DFI(11).role_id = 3
+      child = DefaultIssue.new(:parent_id => 11,
+                               :root_id => 11,
+                               :tracker_id => 1, 
+                               :project_id => 1,
+                               :priority_id => 2, 
+                               :subject => 'parent',
+                               :description => 'parent test', 
+                               :status_id => 2,
+                               :project_id => 1,
+                               :author_id => 1,
+                               :start_date => 2014-07-16,
+                               :estimated_hours => 1,
+                               :role_id => 1,
+                              )
+      
+      assert !child.save, "relation saved but should't!!"
+    end
+  end
+
+  test 'Destroy issue should delete values from DefaultIssueMember class table' do
+    assert_difference 'DefaultIssueMember.count', +2 do
+      member = Member.new(:project_id => 7, :user_id => 4, :role_ids => [1])
+      assert member.save, member.errors.inspect
+    end 
+    assert_difference 'DefaultIssueMember.count', -1 do
+      Issue.last.destroy
+    end
+  end
+
+  test 'Create issue tree and destroy first should delete own and leaves values from users_default_isses' do
+    assert_difference 'DefaultIssueMember.count', +3 do
+      member = Member.new(:project_id => 9, :user_id => 4, :role_ids => [1])
+      assert member.save, member.errors.inspect
+    end 
+    assert_difference 'DefaultIssueMember.count', -3 do
+      Issue.first.destroy
+    end
+  end
+
+  test 'child(leaves) releted on same level' do
+    assert_difference 'IssueRelation.count', +1 do
+      member = Member.new(:project_id => 10, :user_id => 4, :role_ids => [1])
+      assert member.save, member.errors.inspect
+    end
+  end
 end

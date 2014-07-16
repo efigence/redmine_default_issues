@@ -17,12 +17,21 @@ class DefaultIssue < ActiveRecord::Base
   validates :description, :presence => true
   validates :estimated_hours, :presence => true, :numericality => true
   validate :validate_default_issue_estimated_hours
+  validate :validate_child_default_issue_same_role
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
 
+  belongs_to :status, :class_name => 'IssueStatus'
+  belongs_to :role
+  belongs_to :tracker
+
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
 
-  has_and_belongs_to_many :users, :join_table => "#{table_name_prefix}users_default_issues#{table_name_suffix}", :foreign_key => "default_issue_id"
+  has_many :default_issue_members
+  has_many :users, through: :default_issue_members
+  has_many :issues, through: :default_issue_members
+
+  # has_and_belongs_to_many :users, :join_table => "#{table_name_prefix}users_default_issues#{table_name_suffix}", :foreign_key => "default_issue_id"
   
   after_save :recalculate_parent
   
@@ -33,6 +42,14 @@ class DefaultIssue < ActiveRecord::Base
     if due_date != nil
       if due_date < start_date
         errors.add :due_date, :greater_than_start_date
+      end
+    end
+  end
+  
+  def validate_child_default_issue_same_role
+    if parent_id != nil
+      if role_id != DefaultIssue.find(parent_id).role_id
+        errors.add :role_id, :can_not_create_child_with_different_role
       end
     end
   end

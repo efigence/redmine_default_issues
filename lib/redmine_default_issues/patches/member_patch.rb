@@ -19,7 +19,11 @@ module RedmineDefaultIssues
               i.parent_id = parent.id if parent
               if i.save!
                 create_issues(default_issue.children, root || i, i)
-                default_issue.users << self.user
+                m = DefaultIssueMember.new
+                m.issue = i
+                m.default_issue = default_issue
+                m.user = self.user
+                m.save!
               else
                 Rails.logger.error "--- cannot create default issue \n #{default_issue.inspect} \n #{i.errors.inspect}"
               end
@@ -37,8 +41,8 @@ module RedmineDefaultIssues
               df1 = DefaultIssue.find(from_id)
               df2 = DefaultIssue.find(to_id)
               if df1.role_id == df2.role_id
-                issue_from = Issue.where(:subject => df1.subject, :assigned_to_id => self.user_id, :project_id => self.project_id).first
-                issue_to = Issue.where(:subject => df2.subject, :assigned_to_id => self.user_id, :project_id => self.project_id).first
+                issue_from = DefaultIssueMember.where(user_id: self.user_id, default_issue_id: df1.id).first.issue
+                issue_to = DefaultIssueMember.where(user_id: self.user_id, default_issue_id: df2.id).first.issue
                 relation = di_relation.to_issue_relation(issue_from, issue_to)
                 relation.save!
                 create_issue_relations(default_issue.children)

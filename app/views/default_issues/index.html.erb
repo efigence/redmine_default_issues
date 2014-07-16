@@ -27,13 +27,13 @@
       <tr class="hascontextmenu">
         <td class="id"><%= default_issue.id %></td>
         <td class="id"><%= default_issue.parent_id %></td>
-        <td><%= default_issue.status_id %></td>
+        <td><%= default_issue.tracker.name %></td>
+        <td><%= default_issue.status.name %></td>
+        <td><%= default_issue.priority.name %></td>
         <td class="subject"><%= link_to default_issue.subject.truncate(20), project_default_issue_path(@project, default_issue)  %></td>
         <td><%= default_issue.description.truncate(20) %></td>
         <td><%= default_issue.estimated_hours %></td>
-        <td><%= default_issue.tracker_id %></td>
-        <td><%= default_issue.priority_id %></td>
-        <td><%= default_issue.role_id %></td>
+        <td><%= default_issue.role.name %></td>
         <td><%= default_issue.start_date %></td>
         <% if User.current.allowed_to?(:manage_default_issues, @project) %>
         <td>

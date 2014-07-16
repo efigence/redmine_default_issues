@@ -32,5 +32,9 @@ en:
             default_issue_to_id:
               cant_link_an_default_issue_with_a_descendant: An default issue cannot be linked to one of its subtasks
               cant_create_relation_with_different_roles: Relation can't be created - default issues have different roles
+        default_issue:
+          attributes:
+            role_id:
+              can_not_create_child_with_different_role: Child can't be create with different role then parent role!
   field_action: Actions
   greater_then_zero: Estimated hours can't be less then zero - should be greater then zero!

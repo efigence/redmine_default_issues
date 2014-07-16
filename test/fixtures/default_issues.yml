@@ -192,3 +192,116 @@ defaultissues_011:
   estimated_hours: 3
   lft: 1
   rgt: 2
+defaultissues_012: 
+  id: 12
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 9
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada parent
+  category_id: 
+  description: 
+  root_id: 12
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 3.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 12.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3
+defaultissues_013: 
+  id: 13
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 9
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada child
+  category_id: 
+  description:
+  parent_id: 12 
+  root_id: 12
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 3.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 12.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3
+  lft: 0
+  rgt: 0
+defaultissues_014: 
+  id: 14
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 9
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada child of child
+  category_id: 
+  description:
+  parent_id: 13 
+  root_id: 12
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 3.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 12.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3
+  lft: 0
+  rgt: 0
+defaultissues_015: 
+  id: 15
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 10
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada parent
+  category_id: 
+  description:
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 20.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 15.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 2
+  lft: 0
+  rgt: 0
+defaultissues_016: 
+  id: 16
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 10
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada chil level 1
+  category_id: 
+  description: lev
+  parent_id: 15
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 20.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 15.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 2
+  lft: 0
+  rgt: 0
+defaultissues_017: 
+  id: 17
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 10
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: Youadsada chil level 1
+  category_id: 
+  description: lev
+  parent_id: 15
+  tracker_id: 1
+  author_id: 1
+  status_id: 1
+  start_date: <%= 20.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 15.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 3
+  lft: 0
+  rgt: 0

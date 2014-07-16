@@ -31,6 +31,10 @@ pl:
             default_issue_to_id:
               cant_link_an_default_issue_with_a_descendant: Domyślne zagadnienie nie może zostać powiązane z jednym z własnych podzagadnień
               cant_create_relation_with_different_roles: Relacja nie może być utworzona - domyślne zagadnienia maja inne role
+        default_issue:
+          attributes:
+            role_id:
+              can_not_create_child_with_different_role: Podzagadnienie nie może mieć innej roli niż zagadnienie(rodzic)  
   field_action: Akcje
 
   greater_then_zero: Estymowany czas nie może być mniejszy/równy zero!
