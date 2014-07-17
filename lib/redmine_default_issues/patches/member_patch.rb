@@ -36,13 +36,11 @@ module RedmineDefaultIssues
         default_issues.each do |default_issue|
           if default_issue.relations.any?
             default_issue.relations.each do |di_relation|
-              from_id = di_relation.default_issue_from_id
-              to_id = di_relation.default_issue_to_id
-              df1 = DefaultIssue.find(from_id)
-              df2 = DefaultIssue.find(to_id)
-              if df1.role_id == df2.role_id
-                issue_from = DefaultIssueMember.where(user_id: self.user_id, default_issue_id: df1.id).first.issue
-                issue_to = DefaultIssueMember.where(user_id: self.user_id, default_issue_id: df2.id).first.issue
+              di_from = DefaultIssue.find(di_relation.default_issue_from_id)
+              di_to = DefaultIssue.find(di_relation.default_issue_to_id)
+              if di_from.role_id == di_to.role_id
+                issue_from = DefaultIssueMember.where(user_id: self.user_id, default_issue_id: di_from.id).first.issue
+                issue_to = DefaultIssueMember.where(user_id: self.user_id, default_issue_id: di_to.id).first.issue
                 relation = di_relation.to_issue_relation(issue_from, issue_to)
                 relation.save!
               end
@@ -59,7 +57,6 @@ module RedmineDefaultIssues
           self.roles.each do |role|
             di = DefaultIssue.where(role_id: role.id, parent_id: nil, project_id: self.project_id)
             create_issues(di)
-            # wszystkie dzieci
             create_issue_relations(di)
           end    
         end

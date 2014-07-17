@@ -55,9 +55,6 @@ class DefaultIssueRelation < ActiveRecord::Base
 
   attr_protected :default_issue_from_id, :default_issue_to_id
   before_save :handle_default_issue_order
-  #after_create  :create_journal_after_create
-  #after_destroy :create_journal_after_delete
-
   
   def to_issue_relation(issue_from, issue_to)
     iss_r = IssueRelation.where(issue_from_id: issue_from.id, issue_to_id: issue_to.id).first

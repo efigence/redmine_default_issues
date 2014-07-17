@@ -1,71 +1,42 @@
-<h2> show </h2>
-
-<div class="box">
 <div class="contextual">
-<%= link_to 'Edit', edit_project_default_issue_path(@project, @default_issue), :class => 'icon icon-edit'  %> |
-<%= link_to 'Back', project_default_issues_path %>
+    <%= link_to 'Edit', edit_project_default_issue_path(@project, @default_issue), :class => 'icon icon-edit'  %> |
+    <%= link_to 'Back', project_default_issues_path %>
 </div>
-  <p id="notice"><%= notice %></p>
-  <% unless @default_issue.parent == nil %>
-  <p>
-    <strong>Parent: </strong>
-    <%= @default_issue.parent.id %>
-    <strong>Parent Subject:</strong>
-    <%= @default_issue.parent.subject %>
-  </p>
-  <% end %>
-
-  <p>
-    <strong>ID:</strong>
-    <%= @default_issue.id %>
-  </p>
-
-  <p>
-    <strong>Subject:</strong>
-    <%= @default_issue.subject %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= @default_issue.description %>
-  </p>
-
-  <p>
-    <strong>Estimated hours:</strong>
-    <%= @default_issue.estimated_hours %>
-  </p>
-
-  <p>
-    <strong>Tracker:</strong>
-    <%= @default_issue.tracker.name %>
-  </p>
-
-  <p>
-    <strong>Priority:</strong>
-    <%= @default_issue.priority.name %>
-  </p>
-
-  <p>
-    <strong>Role:</strong>
-    <%= @default_issue.role.name %>
-  </p>
-  <p>
-    <strong>Start date:</strong>
-    <%= @default_issue.start_date %>
-  </p>
-   <p>
-    <strong>Due date:</strong>
-    <%= @default_issue.due_date %>
-  </p>
-  
-  <hr />
-  <div id="relations">
-    <%= render :partial => 'relations' %>
+<h2><%= default_issue_heading(@default_issue) %></h2>
+<div class="<%= @default_issue.css_classes %> details">
+  <div class="subject">
+  <%= render_default_issue_subject_with_tree(@default_issue) %>
   </div>
-
+ 
+    <p id="notice"><%= notice %></p>
+      <p class="author">
+          <%= authoring @default_issue.created_on, @default_issue.author %>.
+          <% if @default_issue.created_on != @default_issue.updated_on %>
+          <%= l(:label_updated_time, time_tag(@default_issue.updated_on)).html_safe %>.
+          <% end %>
+          </p>
+    <hr />
+    <table class="attributes">
+      <%= default_issue_fields_rows do |rows|
+        rows.left l(:field_status), h(@default_issue.status.name), :class => 'status'
+        rows.left l(:field_priority), h(@default_issue.priority.name), :class => 'priority'
+        rows.left l(:field_role), h(@default_issue.role.name)
+        rows.right l(:field_start_date), format_date(@default_issue.start_date), :class => 'start-date'
+        rows.right l(:field_due_date), format_date(@default_issue.due_date), :class => 'due-date'
+        rows.right l(:field_estimated_hours), l_hours(@default_issue.estimated_hours), :class => 'estimated-hours'
+        end %> 
+    </table>
+    <hr />
+    <div class="description">
+      <p><strong><%=l(:field_description)%></strong></p>
+      <%= textilizable @default_issue, :description %>
+    </div>
+    <hr />
+    <div id="relations">
+      <%= render :partial => 'relations' %>
+    </div>
+  
 </div>
-
-
 <% content_for :sidebar do %>
     <%= render :partial => 'default_issues/sidebar' %>
 <% end %>

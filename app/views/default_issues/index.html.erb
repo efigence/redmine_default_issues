@@ -1,20 +1,29 @@
+<div class="contextual">
+<% if User.current.allowed_to?(:manage_default_issues, @project) %>
+<%= link_to '', new_project_default_issue_path(@project), :class => 'icon icon-add' %>
+<% end %>
+</div>
 <h2>Default issues</h2>
+
 <% if @default_issues.empty? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
 <div class="autoscroll">
+    <% @default_issues.group_by(&:role_id).each do |role_id, dil| %>
+    <hr>
+    <h3>
+      <%= Role.find(role_id).name %>
+    </h3>
 <table class="list issues">
   <thead>
     <tr>
       <th>#</th>
-      <th>parent #</th>
+      <th><%=l(:field_tracker)%></th>
       <th><%=l(:field_status)%></th>
+      <th><%=l(:field_priority)%></th>
       <th><%=l(:field_subject)%></th>
       <th><%=l(:field_description)%></th>
       <th><%=l(:field_estimated_hours)%></th>
-      <th><%=l(:field_tracker)%></th>
-      <th><%=l(:field_priority)%></th>
-      <th><%=l(:field_role)%></th>
       <th><%=l(:field_start_date)%></th>
       <th><%=l(:field_action)%></th>
       <th colspan="3"></th>
@@ -22,31 +31,31 @@
   </thead>
 
   <tbody>
-   
-    <% @default_issues.each do |default_issue| %>
-      <tr class="hascontextmenu">
-        <td class="id"><%= default_issue.id %></td>
-        <td class="id"><%= default_issue.parent_id %></td>
-        <td><%= default_issue.tracker.name %></td>
-        <td><%= default_issue.status.name %></td>
-        <td><%= default_issue.priority.name %></td>
-        <td class="subject"><%= link_to default_issue.subject.truncate(20), project_default_issue_path(@project, default_issue)  %></td>
-        <td><%= default_issue.description.truncate(20) %></td>
-        <td><%= default_issue.estimated_hours %></td>
-        <td><%= default_issue.role.name %></td>
-        <td><%= default_issue.start_date %></td>
-        <% if User.current.allowed_to?(:manage_default_issues, @project) %>
-        <td>
-          <%= link_to '', edit_project_default_issue_path(@project, default_issue), :class => 'icon icon-edit' %> |
-          <%= link_to '', [@project, default_issue], :confirm => 'Are you sure?',
-                                                            :method => :delete,
-                                                            :class => 'icon icon-del' %> 
-        </td>
-        <% end %>
-      </tr>
-    <% end %>
+      <% default_issue_list(dil) do |default_issue, level| -%>
+         <tr id="issue-<%= default_issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= default_issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+          <td class="id"><%= default_issue.id %></td>
+          <td><%= default_issue.tracker.name %></td>
+          <td><%= default_issue.status.name %></td>
+          <td><%= default_issue.priority.name %></td>
+          <td class="subject"><%= link_to default_issue.subject.truncate(20), project_default_issue_path(@project, default_issue)  %></td>
+          <td><%= default_issue.description.truncate(20) %></td>
+          <td><%= default_issue.estimated_hours %></td>
+          <td><%= default_issue.start_date %></td>
+          <% if User.current.allowed_to?(:manage_default_issues, @project) %>
+          <td>
+            <%= link_to '', edit_project_default_issue_path(@project, default_issue), :class => 'icon icon-edit' %> |
+            <%= link_to '', [@project, default_issue], :confirm => 'Are you sure?',
+                                                       :method => :delete,
+                                                       :class => 'icon icon-del' %> 
+          </td>
+          
+         <% end %> 
+        </tr>
+      <% end %>
+
   </tbody>
 </table>
+    <% end %>
 </div>
 <% end %>
 <div class="contextual">

@@ -265,4 +265,53 @@ class MemberModuleTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test 'root_id should equal to parent root_id or own id' do
+    parent = DefaultIssue.new( :tracker_id => 1, 
+                               :project_id => 1,
+                               :priority_id => 2, 
+                               :subject => 'parent',
+                               :description => 'parent test auto root set', 
+                               :status_id => 2,
+                               :project_id => 1,
+                               :author_id => 1,
+                               :start_date => 2014-07-16,
+                               :estimated_hours => 1,
+                               :role_id => 1,
+                              )
+    assert parent.save, 'parent saved!'
+    assert_equal parent.root_id, parent.id
+    child = DefaultIssue.new(  :parent_id => parent.id,
+                               :tracker_id => 1, 
+                               :project_id => 1,
+                               :priority_id => 2, 
+                               :subject => 'child',
+                               :description => 'child test auto root set', 
+                               :status_id => 2,
+                               :project_id => 1,
+                               :author_id => 1,
+                               :start_date => 2014-07-16,
+                               :estimated_hours => 1,
+                               :role_id => 1,
+                              )
+    assert child.save, 'child saved!'
+    assert_equal child.root_id, parent.root_id
+    child_of_child = DefaultIssue.new(  
+                               :parent_id => child.id,
+                               :tracker_id => 1, 
+                               :project_id => 1,
+                               :priority_id => 2, 
+                               :subject => 'child of child',
+                               :description => 'child of child test auto root set', 
+                               :status_id => 2,
+                               :project_id => 1,
+                               :author_id => 1,
+                               :start_date => 2014-07-16,
+                               :estimated_hours => 1,
+                               :role_id => 1,
+                              )
+    assert child_of_child.save, 'Child of child saved!'
+    assert_equal child_of_child.root_id, parent.root_id
+    assert_equal child_of_child.root_id, child.root_id
+  end
 end

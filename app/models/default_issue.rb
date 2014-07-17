@@ -5,6 +5,10 @@ class DefaultIssue < ActiveRecord::Base
                   :tracker_id, :project_id, :description, :estimated_hours, 
                   :parent_id, :root_id, :start_date, :due_date
 
+  before_save :set_root_id
+  after_create :set_root_id_after_create
+
+
   validates :due_date, :date => true
   validates :start_date, :date => true
   validates :subject, :presence => true
@@ -20,7 +24,8 @@ class DefaultIssue < ActiveRecord::Base
   validate :validate_child_default_issue_same_role
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
-
+  
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :status, :class_name => 'IssueStatus'
   belongs_to :role
   belongs_to :tracker
@@ -37,7 +42,7 @@ class DefaultIssue < ActiveRecord::Base
   
   has_many :relations_from, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_to_id', :dependent => :delete_all
-  
+
   def validate_default_issue_estimated_hours
     if due_date != nil
       if due_date < start_date
@@ -287,4 +292,37 @@ class DefaultIssue < ActiveRecord::Base
         [(@parent_issue || parent).try(:soonest_start)]
       ).compact.max
   end
+
+  # Returns a string of css classes that apply to the default issue
+  def css_classes(user=User.current)
+    s = "issue default_issue tracker-#{tracker_id} status-#{status_id} #{priority.try(:css_classes)}"
+    s << ' child' if child?
+    s << ' parent' unless leaf?
+   #s << ' closed' if closed?#
+   #s << ' overdue' if overdue?
+   #s << ' private' if is_private?
+    if user.logged?
+      s << ' created-by-me' if author_id == user.id
+      s << ' assigned-to-me' if assigned_to_id == user.id
+      s << ' assigned-to-my-group' if user.groups.any? {|g| g.id == assigned_to_id}
+    end
+    s
+  end
+
+  private
+
+  def set_root_id
+    unless self.root_id
+      if self.parent_id
+        self.root_id = self.parent.root_id
+      end
+    end
+  end
+
+  def set_root_id_after_create
+    self.root_id ||= self.id
+    save
+  end
+  
+
 end
