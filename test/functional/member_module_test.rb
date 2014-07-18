@@ -266,7 +266,7 @@ class MemberModuleTest < ActiveSupport::TestCase
     end
   end
 
-  test 'root_id should equal to parent root_id or own id' do
+   test 'root_id should equal to parent root_id or own id' do
     parent = DefaultIssue.new( :tracker_id => 1, 
                                :project_id => 1,
                                :priority_id => 2, 
@@ -280,7 +280,8 @@ class MemberModuleTest < ActiveSupport::TestCase
                                :role_id => 1,
                               )
     assert parent.save, 'parent saved!'
-    assert_equal parent.root_id, parent.id
+    assert_equal parent.id, parent.root_id, 'wrong root_id'
+    #-----
     child = DefaultIssue.new(  :parent_id => parent.id,
                                :tracker_id => 1, 
                                :project_id => 1,
@@ -295,7 +296,8 @@ class MemberModuleTest < ActiveSupport::TestCase
                                :role_id => 1,
                               )
     assert child.save, 'child saved!'
-    assert_equal child.root_id, parent.root_id
+    assert_equal parent.id, child.root_id, 'wrong root_id'
+    #-----
     child_of_child = DefaultIssue.new(  
                                :parent_id => child.id,
                                :tracker_id => 1, 
@@ -311,7 +313,49 @@ class MemberModuleTest < ActiveSupport::TestCase
                                :role_id => 1,
                               )
     assert child_of_child.save, 'Child of child saved!'
-    assert_equal child_of_child.root_id, parent.root_id
-    assert_equal child_of_child.root_id, child.root_id
+    assert_equal parent.id, child_of_child.root_id, 'wrong root_id'
+    assert_equal child.root_id, child_of_child.root_id, 'wrong root_id'
   end
+
+  test 'Edit default issue - add as child' do
+    # assert_difference 'DefaultIssue.count', +2 do
+      #-----------------------------------------
+      df_1 = DefaultIssue.new(   :tracker_id => 1, 
+                                 :project_id => 1,
+                                 :priority_id => 2, 
+                                 :subject => 'DF1',
+                                 :description => 'df1 test auto root set', 
+                                 :status_id => 2,
+                                 :project_id => 1,
+                                 :author_id => 1,
+                                 :start_date => 2014-07-16,
+                                 :estimated_hours => 1,
+                                 :role_id => 1,
+                                )
+      assert df_1.save, 'df_1 saved!'
+      assert_equal df_1.id, df_1.root_id, 'wrong root_id'
+      assert_equal nil, df_1.parent_id, 'wrong parent_id'
+      #-----------------------------------------
+      df_2 = DefaultIssue.new(   :tracker_id => 1, 
+                                 :project_id => 1,
+                                 :priority_id => 2, 
+                                 :subject => 'df2',
+                                 :description => 'df2 test auto root set', 
+                                 :status_id => 2,
+                                 :project_id => 1,
+                                 :author_id => 1,
+                                 :start_date => 2014-07-16,
+                                 :estimated_hours => 1,
+                                 :role_id => 1,
+                                )
+
+      assert df_2.save, 'df_2 saved!'
+      assert_equal df_2.id, df_2.root_id, 'wrong root_id'
+      assert_equal nil, df_2.parent_id, 'wrong parent_id'
+
+      df_2.parent_id = df_1.id
+      assert df_2.save, 'df_2 saved!'
+      assert_equal df_1.id, df_2.parent_id, 'wrong parent_id'
+      assert_equal df_1.id, df_2.root_id, 'wrong root_id'
+    end
 end
