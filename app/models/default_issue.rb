@@ -5,8 +5,10 @@ class DefaultIssue < ActiveRecord::Base
                   :tracker_id, :project_id, :description, :estimated_hours, 
                   :parent_id, :root_id, :start_date, :due_date
 
-  before_save :set_root_id
+ 
+  after_save :set_root_id
   after_create :set_root_id_after_create
+  after_update :set_root_id_after_update
 
 
   validates :due_date, :date => true
@@ -22,6 +24,7 @@ class DefaultIssue < ActiveRecord::Base
   validates :estimated_hours, :presence => true, :numericality => true
   validate :validate_default_issue_estimated_hours
   validate :validate_child_default_issue_same_role
+  validate :if_role_change
 
   acts_as_nested_set :scope => "root_id", :dependent => :destroy
   
@@ -36,8 +39,6 @@ class DefaultIssue < ActiveRecord::Base
   has_many :users, through: :default_issue_members
   has_many :issues, through: :default_issue_members
 
-  # has_and_belongs_to_many :users, :join_table => "#{table_name_prefix}users_default_issues#{table_name_suffix}", :foreign_key => "default_issue_id"
-  
   after_save :recalculate_parent
   
   has_many :relations_from, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_from_id', :dependent => :delete_all
@@ -56,6 +57,12 @@ class DefaultIssue < ActiveRecord::Base
       if role_id != DefaultIssue.find(parent_id).role_id
         errors.add :role_id, :can_not_create_child_with_different_role
       end
+    end
+  end
+
+  def if_role_change
+    if self.parent_id != nil && self.parent.role_id != self.role_id
+      errors.add :role_id, :can_not_move_subtree_to_different_role
     end
   end
 
@@ -95,10 +102,12 @@ class DefaultIssue < ActiveRecord::Base
       end
 
       # estimate = sum of leaves estimates
-      p.estimated_hours = p.leaves.sum(:estimated_hours).to_f
+      p.estimated_hours = p.leaves.map(&:estimated_hours).map(&:to_f).sum
+      # p.estimated_hours = p.leaves.sum(&:estimated_hours).to_f
       p.estimated_hours = nil if p.estimated_hours == 0.0
 
       # ancestors will be recursively updated
+      # p.save(:validate => false)
       p.save(:validate => false)
     end
   end
@@ -298,9 +307,6 @@ class DefaultIssue < ActiveRecord::Base
     s = "issue default_issue tracker-#{tracker_id} status-#{status_id} #{priority.try(:css_classes)}"
     s << ' child' if child?
     s << ' parent' unless leaf?
-   #s << ' closed' if closed?#
-   #s << ' overdue' if overdue?
-   #s << ' private' if is_private?
     if user.logged?
       s << ' created-by-me' if author_id == user.id
       s << ' assigned-to-me' if assigned_to_id == user.id
@@ -309,12 +315,58 @@ class DefaultIssue < ActiveRecord::Base
     s
   end
 
-  private
+  def parent_id=(new_parent)
+    if self.child?
+      self.root_id = self.parent.id
+    else
+      self.root_id ||= self.id
+    end
+    super
+  end
+
+  def set_root_id_after_update
+    if self.parent_id == nil && self.root_id != self.id
+      self.root_id = self.id
+      save
+    end
+    if attribute_changed?('role_id') && self.parent_id == nil
+      tree = DefaultIssue.where(root_id: self.id)
+      tree.each do |tr|
+        tr.role_id = self.role_id
+        tr.relations.each do |rel|
+          rel.destroy unless rel.valid?
+        end
+        tr.save
+      end
+    end
+  end
 
   def set_root_id
-    unless self.root_id
-      if self.parent_id
-        self.root_id = self.parent.root_id
+    old_root_id = root_id
+
+    if self.child?
+      self.root_id = self.parent.root_id if self.root_id != self.parent.root_id
+    else
+      self.root_id = self.id if self.root_id != self.id
+    end
+    
+    if attribute_changed?('root_id') && self.parent_id != nil
+      target_maxright = nested_set_scope.maximum(right_column_name) || 0
+      offset = target_maxright.to_i + 1 - lft.to_i
+      DefaultIssue.where(["root_id = ? AND lft >= ? AND rgt <= ? ", old_root_id, lft, rgt]).
+        update_all(["root_id = ?, lft = lft + ?, rgt = rgt + ?", root_id, offset, offset])
+      self[left_column_name] = lft.to_i + offset
+      self[right_column_name] = rgt.to_i + offset
+    elsif attribute_changed?('parent_id') #&& self.parent_id != nil
+      if parent_id
+        move_to_child_of(parent_id)
+      end
+    end
+
+    if attribute_changed?('root_id') || attribute_changed?('parent_id')
+      reload
+      if children.any?
+        children.map(&:save)
       end
     end
   end

@@ -34,7 +34,8 @@ pl:
         default_issue:
           attributes:
             role_id:
-              can_not_create_child_with_different_role: Podzagadnienie nie może mieć innej roli niż zagadnienie(rodzic)  
+              can_not_create_child_with_different_role: Podzagadnienie nie może mieć innej roli niż zagadnienie(rodzic)
+              can_not_move_subtree_to_different_role: Poddrzewo nie może zostać przesunięte do innej roli  
   field_action: Akcje
 
   greater_then_zero: Estymowany czas nie może być mniejszy/równy zero!

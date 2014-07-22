@@ -18,6 +18,8 @@
   <thead>
     <tr>
       <th>#</th>
+      <th>#root</th>
+      <th>#parent</th>
       <th><%=l(:field_tracker)%></th>
       <th><%=l(:field_status)%></th>
       <th><%=l(:field_priority)%></th>
@@ -32,8 +34,10 @@
 
   <tbody>
       <% default_issue_list(dil) do |default_issue, level| -%>
-         <tr id="issue-<%= default_issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= default_issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+        <tr class="hascontextmenu">
           <td class="id"><%= default_issue.id %></td>
+          <td><%= default_issue.root_id %></td>
+          <td><%= default_issue.parent_id %></td>
           <td><%= default_issue.tracker.name %></td>
           <td><%= default_issue.status.name %></td>
           <td><%= default_issue.priority.name %></td>

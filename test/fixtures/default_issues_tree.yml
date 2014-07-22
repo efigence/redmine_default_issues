@@ -1,0 +1,218 @@
+--- 
+defaultissues_1001: 
+  id: 1001
+  root_id: 1001
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1001 root 1
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 1
+  rgt: 4
+defaultissues_1002: 
+  id: 1002
+  root_id: 1001
+  parent_id: 1001
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1002 child 1
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 2
+  rgt: 3
+defaultissues_1003: 
+  id: 1003
+  root_id: 1003
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1003 root 2
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 1
+  rgt: 2
+defaultissues_1004: 
+  id: 1004
+  root_id: 1003
+  parent_id: 1003
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1004 child 2
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 3
+  rgt: 4
+defaultissues_1005: 
+  id: 1005
+  root_id: 1005
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: root 1005
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 1
+  rgt: 14
+defaultissues_1006: 
+  id: 1006
+  root_id: 1005
+  parent_id: 1005
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1006 child
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 2
+  rgt: 3
+defaultissues_1007: 
+  id: 1007
+  root_id: 1005
+  parent_id: 1005
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1007 child 
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 4
+  rgt: 13
+defaultissues_1008: 
+  id: 1008
+  root_id: 1005
+  parent_id: 1007
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1008 child 1007
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 5
+  rgt: 12
+defaultissues_1009: 
+  id: 1009
+  root_id: 1005
+  parent_id: 1008
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1007 child 1008
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 6
+  rgt: 11
+defaultissues_1010: 
+  id: 1010
+  root_id: 1005
+  parent_id: 1009
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1010 child 1009
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 7
+  rgt: 10
+defaultissues_1011: 
+  id: 1011
+  root_id: 1005
+  parent_id: 1010
+  created_on: <%= 3.days.ago.to_s(:db) %>
+  project_id: 1
+  updated_on: <%= 1.day.ago.to_s(:db) %>
+  priority_id: 4
+  subject: 1011 child 1010
+  category_id: 1
+  description: Unable to print recipes
+  tracker_id: 2
+  author_id: 1
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  role_id: 1
+  estimated_hours: 4
+  lft: 8
+  rgt: 9

@@ -5,7 +5,7 @@ class DefaultIssuesController < ApplicationController
   before_filter :find_project, :authorize, :only => [:index, :new, :create, :show, :edit, :update]
    
   def index
-    @default_issues = DefaultIssue.where(project_id:@project).order('role_id', 'root_id', 'parent_id', 'subject')
+    @default_issues = DefaultIssue.where(project_id:@project).order('role_id', 'root_id', 'parent_id')
   end
 
   def new
@@ -36,7 +36,6 @@ class DefaultIssuesController < ApplicationController
   
   def update
     @default_issue = DefaultIssue.find(params[:id])
-
     respond_to do |format|
       if @default_issue.update_attributes(params[:default_issue])
         format.html { redirect_to project_default_issues_path, notice: 'Default issue was successfully updated.' }

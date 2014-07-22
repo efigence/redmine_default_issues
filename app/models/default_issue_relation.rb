@@ -101,6 +101,7 @@ class DefaultIssueRelation < ActiveRecord::Base
       else
         errors.add :base, :circular_dependency if default_issue_to.all_dependent_default_issues.include? default_issue_from
       end
+     # if default_issue_from.root_id == default_issue_to.root_id
       if default_issue_from.is_descendant_of?(default_issue_to) || default_issue_from.is_ancestor_of?(default_issue_to)
         errors.add :default_issue_to_id, :cant_link_an_default_issue_with_a_descendant
       end

@@ -4,6 +4,7 @@ require File.expand_path('../../../lib/redmine_default_issues/patches/member_pat
 class MemberModuleTest < ActiveSupport::TestCase
   self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')
 
+
   fixtures :roles, 
            :trackers,
            :projects_trackers, 
@@ -107,8 +108,8 @@ class MemberModuleTest < ActiveSupport::TestCase
       assert member.save
       member.reload
 
-      roots = DefaultIssue.where(:project_id => 1, role_id: 1).roots
-      assert_equal roots.count, 3
+      #roots = DefaultIssue.where(:project_id => 1, role_id: 1).roots
+      #assert_equal roots.count, 3
 
       issues = Issue.where(project_id: 1, assigned_to_id: 4).all
       default_issues = DefaultIssue.where(project_id: 1, :role_id => roles).all
@@ -317,7 +318,7 @@ class MemberModuleTest < ActiveSupport::TestCase
     assert_equal child.root_id, child_of_child.root_id, 'wrong root_id'
   end
 
-  test 'Edit default issue - add as child' do
+  test 'Edit default issue - add as child(move to child of)' do
     # assert_difference 'DefaultIssue.count', +2 do
       #-----------------------------------------
       df_1 = DefaultIssue.new(   :tracker_id => 1, 
@@ -357,5 +358,203 @@ class MemberModuleTest < ActiveSupport::TestCase
       assert df_2.save, 'df_2 saved!'
       assert_equal df_1.id, df_2.parent_id, 'wrong parent_id'
       assert_equal df_1.id, df_2.root_id, 'wrong root_id'
+  end
+
+  test 'move root to tree (as leaf)' do
+    root = DefaultIssue.new(:tracker_id => 1, 
+                            :project_id => 1,
+                            :priority_id => 2, 
+                            :subject => 'root',
+                            :description => 'root', 
+                            :status_id => 2,
+                            :project_id => 1,
+                            :author_id => 1,
+                            :start_date => 2014-07-16,
+                            :estimated_hours => 1,
+                            :role_id => 1,
+                           )
+    assert root.save, 'root saved!'
+    child_of_root =  DefaultIssue.new(:parent_id => root.id,
+                                      :tracker_id => 1, 
+                                      :project_id => 1,
+                                      :priority_id => 2, 
+                                      :subject => 'child_of_root',
+                                      :description => 'child_of_root', 
+                                      :status_id => 2,
+                                      :project_id => 1,
+                                      :author_id => 1,
+                                      :start_date => 2014-07-16,
+                                      :estimated_hours => 1,
+                                      :role_id => 1,
+                                     )
+    assert child_of_root.save, 'child_of_root saved!'
+    assert_equal root.id, child_of_root.parent_id
+    second_root = DefaultIssue.new(:tracker_id => 1, 
+                            :project_id => 1,
+                            :priority_id => 2, 
+                            :subject => 'second_root',
+                            :description => 'second_root', 
+                            :status_id => 2,
+                            :project_id => 1,
+                            :author_id => 1,
+                            :start_date => 2014-07-16,
+                            :estimated_hours => 1,
+                            :role_id => 1,
+                           )
+    assert second_root.save, 'second_root saved!'
+    second_root.parent_id = root.id
+    assert second_root.save, 'second_root updated!'
+    assert_equal root.id, second_root.parent_id
+    assert_equal root.id, second_root.root_id
+  end
+  end
+
+class MemberModuleTreeTest < ActiveSupport::TestCase
+  self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')
+
+  set_fixture_class default_issues_tree: DefaultIssue
+  fixtures :default_issues_tree
+
+  test 'fixtures data' do
+    #-----------------FIRST TREE
+    root = DefaultIssue.find(1001)
+    assert_equal root.id, root.root_id, 'wrong root 1 root'
+    assert_equal nil, root.parent_id, 'wrong root 1 parent'
+
+    child = DefaultIssue.find(1002)
+    assert_equal root.id, child.root_id, 'wrong child 1 root'
+    assert_equal root.id, child.parent_id, 'wrong child 1 parent'
+
+
+    #-----------------SECOND TREE
+    root2 = DefaultIssue.find(1003)
+    assert_equal root2.id, root2.root_id, 'wrong root 2 root'
+    assert_equal nil, root2.parent_id, 'wrong root 2 parent'
+
+    child2 = DefaultIssue.find(1004)
+    assert_equal root2.id, child2.root_id, 'wrong child 2 root'
+    assert_equal root2.id, child2.parent_id, 'wrong child 2 parent'
+
+  end
+
+  test 'move tree to another tree, root to leaf' do
+    #-----------------FIRST TREE
+    root = DefaultIssue.find(1001)
+    child = DefaultIssue.find(1002)
+
+    #-----------------SECOND TREE
+    root2 = DefaultIssue.find(1003)
+    child2 = DefaultIssue.find(1004)
+ 
+    #-------------MOVE FIRST TREE TO LEAF OF SECOND TREE
+    root.parent_id = child2.id
+    # puts "============ try change root to leaf"
+    assert root.save, 'root moved!'
+    root.reload
+    child.reload
+    root2.reload
+    child2.reload
+    assert_equal child2.id, root.parent_id, 'wrong root.parent_id'
+    assert_equal root2.id, root.root_id, 'wrong root.root_id'
+    assert_equal root2.id, child.root_id, 'wrong child.root_id'
+    assert_equal root.id, child.parent_id, 'wrong child.parent_id'
+    assert_equal root2.id, child2.parent_id, 'wrong child2.parent_id' 
+  end
+
+  test 'cut subtree from tree and paste to another tree' do
+    #tree 1
+    root = DefaultIssue.find(1005)
+    child_1 = DefaultIssue.find(1006)
+    child_2 = DefaultIssue.find(1007)
+    child_2_1 = DefaultIssue.find(1008)
+    child_2_1_1 = DefaultIssue.find(1009)
+    child_2_1_1_1 = DefaultIssue.find(1010)
+    child_2_1_1_1_1 = DefaultIssue.find(1011)
+    #root
+    assert_equal nil, root.parent_id
+    #child_1
+    assert_equal root.id, child_1.parent_id
+    assert_equal root.id, child_1.root_id
+    #child_2
+    assert_equal root.id, child_2.parent_id
+    assert_equal root.id, child_2.root_id
+    #child_2_1
+    assert_equal child_2.id, child_2_1.parent_id
+    assert_equal root.id, child_2_1.root_id
+    #child_2_1_1
+    assert_equal child_2_1.id, child_2_1_1.parent_id
+    assert_equal root.id, child_2_1_1.root_id
+    #child_2_1_1_1
+    assert_equal child_2_1_1.id, child_2_1_1_1.parent_id
+    assert_equal root.id, child_2_1_1_1.root_id
+    #child_2_1_1_1_1
+    assert_equal child_2_1_1_1.id, child_2_1_1_1_1.parent_id
+    assert_equal root.id, child_2_1_1_1_1.root_id
+
+    #tree 2
+    root_t2 = DefaultIssue.find(1001)
+    child_t2 = DefaultIssue.find(1002)
+    #root_t2
+    assert_equal nil, root_t2.parent_id
+    #child_t2
+    assert_equal root_t2.id, child_t2.parent_id
+    assert_equal root_t2.id, child_t2.root_id             
+
+    
+    assert_difference 'DefaultIssue.where(root_id: 1005).count', -3 do
+      assert_difference 'DefaultIssue.where(root_id: 1001).count', +3 do
+        child_2_1_1.parent_id = child_t2.id
+        assert child_2_1_1.save, 'subtree moved'
+        #root_id
+        root_t2.reload
+        child_t2.reload
+        child_2_1_1.reload
+        child_2_1_1_1.reload
+        child_2_1_1_1_1.reload
+        assert_equal root_t2.id, child_2_1_1.root_id, 'wrong root_id in child_2_1_1'
+        assert_equal root_t2.id, child_2_1_1_1.root_id, 'wrong root_id in child_2_1_1_1'
+        assert_equal root_t2.id, child_2_1_1_1_1.root_id, 'wrong root_id in child_2_1_1_1_1'
+        #parent_id
+        assert_equal child_t2.id, child_2_1_1.parent_id, 'wrong parent_id in child_2_1_1'
+        assert_equal child_2_1_1.id, child_2_1_1_1.parent_id, 'wrong parent_id in child_2_1_1_1'
+        assert_equal child_2_1_1_1.id, child_2_1_1_1_1.parent_id, 'wrong parent_id in child_2_1_1_1_1'
+      end
     end
+  end
+
+  test 'Move leaf as root' do
+    root = DefaultIssue.find(1005)
+    leaves = DefaultIssue.find(1005).leaves
+    leaves.reload
+    assert_difference 'DefaultIssue.where(root_id: 1005).count', -leaves.count do
+      leaves.each do |leaf|
+        leaf.parent_id = nil
+        leaf.save
+        leaf.reload
+        assert_equal nil, leaf.parent_id, 'Wrong parent_id'
+      end
+      root.reload
+    end
+  end
+
+  test 'Role change in parent' do
+    root = DefaultIssue.find(1005)
+    children = root.children
+    #puts children.count.inspect
+    root.role_id = 2
+    root.save
+    root.reload
+    assert_equal 2, root.role_id, 'wrong role id'
+    #if root change - children should be changed
+    children.each do |child| 
+      assert_equal 2, child.role_id, 'wrong role_id in child'
+    end
+  end
+
+  test 'change role_id in subtree' do
+    root = DefaultIssue.find(1007)
+    root.role_id = 2
+    assert !root.save, 'cant saved this'
+ 
+  end
 end

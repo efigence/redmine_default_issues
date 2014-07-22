@@ -36,5 +36,6 @@ en:
           attributes:
             role_id:
               can_not_create_child_with_different_role: Child can't be create with different role then parent role!
+              can_not_move_subtree_to_different_role: Can't move subtree to different role!
   field_action: Actions
   greater_then_zero: Estimated hours can't be less then zero - should be greater then zero!
