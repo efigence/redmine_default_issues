@@ -10,6 +10,7 @@ class DefaultIssuesController < ApplicationController
 
   def new
     @default_issue = DefaultIssue.new
+    @default_issue.priority_id = 3
 
     respond_to do |format|
       format.html

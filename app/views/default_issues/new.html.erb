@@ -1,1 +1,8 @@
-<%= render partial: 'new' %> 
+<%= labelled_form_for @default_issue,
+           :as => :default_issue,
+           :url => "/projects/#{@project.id}/default_issues",
+           :method => 'post' do |f| %>
+<%= render partial: 'form', locals: {f: f} %> 
+<% end %>
+
+<% include_calendar_headers_tags %>

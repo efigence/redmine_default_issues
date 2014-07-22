@@ -37,14 +37,3 @@ Rails.configuration.to_prepare do
   require_relative "app/concerns/default_issue_assignable.rb"
   Member.send :include, DefaultIssueAssignable
 end
-       #:if => Proc.new {
-       #User.current.allowed_to?({:controller => 'default_issues', :action => 'index'}, nil, {:global => true}) && RedmineDefaultIssues.settings[:show_in_top_menu]
-       #}
-
-  #menu :project_menu, :default_issues_new, {:controller => "default_issues", :action => "new"},
-  #     :param => :project_id,
-  #     :caption => :label_default_issue_new
-       
-       #:if => Proc.new {
-       #User.current.allowed_to?({:controller => 'default_issues', :action => 'new'}, nil, {:global => true}) && RedmineDefaultIssues.settings[:show_in_top_menu]
-       #}
