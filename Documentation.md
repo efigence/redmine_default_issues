@@ -12,7 +12,7 @@ Here you can see documenation of usage [Redmine Default Issue Plugin][bb] step b
   3. Lets start created new default issue for specified role
    ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/form.png)
   4. There is example list of created defautl issues for specified role:
-   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/bfb909c64fe60992ee1c74765ebd41b4ab48d5db/PIC/list_of_issues.png)
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/list_of_issues.png)
   5. In current Defautl Issue you can set relation to other (already existed) default issue:
    ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/relation.png)
   6. New Default Issue can be sub Default Issue only in the same role. So when you will create new one, in subproject of: select subject of parent default issue
