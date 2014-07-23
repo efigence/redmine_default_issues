@@ -14,7 +14,7 @@ Developed & tested on Redmine 2.5.1
 4. Restart Redmine.
 5. Add proper permissions and module tab in redmine settings.
 
-# [Usage](https://github.com/efigence/redmine_default_issues/edit/master/Documentation.md)
+# [Usage](https://github.com/efigence/redmine_default_issues/blob/master/Documentation.md)
 Example of use in Documentation
 # License
 
