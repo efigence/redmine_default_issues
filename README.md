@@ -1,5 +1,3 @@
-# WARNING! THIS IS WORK IN PROGRESS. DO NOT USE IT.
-
 # Redmine default issues plugin
 
 Lets you create default issue with default subissues per role that will be assigned to a newly added user to the project (having a specified role).
@@ -17,10 +15,8 @@ Developed & tested on Redmine 2.5.1
 5. Add proper permissions and module tab in redmine settings.
 
 # Usage
-1. When you have an already existed project:
-1.1 Go to Project Settings and in Modules tab select Default Issues
-    ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/Module_in_settings.png)
-
+Example of use in: 
+[Documentation](https://github.com/efigence/redmine_default_issues/edit/master/Documentation.md)
 # License
 
     Redmine context menu log time to project link plugin
