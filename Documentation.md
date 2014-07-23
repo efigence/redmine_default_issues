@@ -4,20 +4,20 @@
 
 1. When you have an already existed project:
   1. Go to Project Settings and in Modules tab select Default Issues
-  2. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/Module_in_settings.png)
-  3. Now you can see new tab in project menu
-  4. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/empty_list.png)
-  5. Lets start created new default issue for specified role
-  6. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/form.png)
-  7. There is example list of created defautl issues for specified role:
-  8. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/bfb909c64fe60992ee1c74765ebd41b4ab48d5db/PIC/list_of_issues.png)
-  9. In current Defautl Issue you can set relation to other (already existed) default issue:
-  10. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/relation.png)
-  11. New Default Issue can be sub Default Issue only in the same role. So when you will create new one, in subproject of: select subject of parent default issue
-  12. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/subdefaultissue.png)
-  13. If you already finished create Default Issues for specified role, you can add to your project some members/groups 
-  14. After add members or groups to your project open tab of Issues and you can see that issues was generated from default issues with everithing what you set in default issue(relations, trees, ...) for members with current role in project
-  15. ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/issue_list1.png)
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/Module_in_settings.png)
+  2. Now you can see new tab in project menu
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/empty_list.png)
+  3. Lets start created new default issue for specified role
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/form.png)
+  4. There is example list of created defautl issues for specified role:
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/bfb909c64fe60992ee1c74765ebd41b4ab48d5db/PIC/list_of_issues.png)
+  5. In current Defautl Issue you can set relation to other (already existed) default issue:
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/relation.png)
+  6. New Default Issue can be sub Default Issue only in the same role. So when you will create new one, in subproject of: select subject of parent default issue
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/subdefaultissue.png)
+  7. If you already finished create Default Issues for specified role, you can add to your project some members/groups 
+  8. After add members or groups to your project open tab of Issues and you can see that issues was generated from default issues with everithing what you set in default issue(relations, trees, ...) for members with current role in project
+   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/issue_list1.png)
 
 2. If you start create a new project then you can select from Modules - Default Issues module
 
