@@ -34,7 +34,7 @@
 
   <tbody>
       <% default_issue_list(dil) do |default_issue, level| -%>
-        <tr class="hascontextmenu">
+       <tr id="issue-<%= default_issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= default_issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
           <td class="id"><%= default_issue.id %></td>
           <td><%= default_issue.root_id %></td>
           <td><%= default_issue.parent_id %></td>
