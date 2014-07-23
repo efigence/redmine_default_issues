@@ -1,8 +1,10 @@
 # Documentation
+Here you can see documenation of usage [Redmine Default Issue Plugin][bb] step by step:
+[bb]: https://github.com/efigence/redmine_default_issues
 
-# Example
 
-1. When you have an already existed project:
+### When you have an already existed project:
+
   1. Go to Project Settings and in Modules tab select Default Issues
    ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/Module_in_settings.png)
   2. Now you can see new tab in project menu
@@ -19,12 +21,14 @@
   8. After add members or groups to your project open tab of Issues and you can see that issues was generated from default issues with everithing what you set in default issue(relations, trees, ...) for members with current role in project
    ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/issue_list1.png)
 
-2. If you start create a new project then you can select from Modules - Default Issues module
+
+### When you don't have an project: 
+ If you start create a new project then you can select from Modules - Default Issues module
 
 3. If you select 'inherit members' in new subproject then Default Issue which you will create in subproject and parent project for the same roles and add members to main project (parent), Issues will be create from Default Issue for project, subproject .. (only for themselves)
 
-4. Permissions 
+###  Permissions 
   1. You can specify which role will be able to CRUD an default issues in Administration/roles and permissions/'selected role' or in permission raport
   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/permission_raport_with_DF.png)
 
-5. Newly added Member to project will have already genereted Issues from Default Issues for his role.
+### Newly added Member to project will have already genereted Issues from Default Issues for his role.
