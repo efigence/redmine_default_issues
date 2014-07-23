@@ -12,7 +12,12 @@
   4. There is example list of created defautl issues for specified role:
   ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/bfb909c64fe60992ee1c74765ebd41b4ab48d5db/PIC/list_of_issues.png)
   5. In current Defautl Issue you can set relation to other (already existed) default issue:
-  ![]()
-  6. 
+  ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/relation.png)
+  6. New Default Issue can be sub Default Issue only in the same role. So when you will create new one, in subproject of: select subject of           parent default issue
+  ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/subdefaultissue.png)
+  7. If you already finished create Default Issues for specified role, you can add to your project some members/groups 
+  8. After add members or groups to your project open tab of Issues and you can see that issues was generated from default issues with everithing      what you set in default issue(relations, trees, ...) for members with current role in project
+  ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/issue_list1.png)
+  8. 
   
 https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/form.png
