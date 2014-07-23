@@ -7,13 +7,14 @@ class MemberModuleTest < ActiveSupport::TestCase
 
   fixtures :roles, 
            :trackers,
+           :projects, 
            :projects_trackers, 
            :enumerations, 
-           :projects, 
            :users, 
            :issue_statuses, 
            :default_issues,
-           :default_issue_relations
+           :default_issue_relations,
+           :groups_users
 
 
 
@@ -407,7 +408,23 @@ class MemberModuleTest < ActiveSupport::TestCase
     assert_equal root.id, second_root.parent_id
     assert_equal root.id, second_root.root_id
   end
+  
+  test 'add group to project with role' do
+    assert_difference 'Issue.where(project_id: 10).count', +6 do
+      group = Member.new(:project_id => 10, :user_id => 10, :role_ids => [1])
+      group.save
+    end
   end
+
+  test 'Extending permission from parent project' do
+    assert_difference 'Issue.where(project_id: 11).count', +1 do
+      assert_difference 'Issue.where(project_id: 12).count', +1 do
+        member = Member.new(:project_id => 11, :user_id => 9, :role_ids => [1])
+        assert member.save, member.errors.inspect
+      end
+    end
+  end
+end
 
 class MemberModuleTreeTest < ActiveSupport::TestCase
   self.fixture_path = File.join(File.dirname(__FILE__), '../fixtures')

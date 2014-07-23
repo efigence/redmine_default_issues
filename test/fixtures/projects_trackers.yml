@@ -59,3 +59,9 @@ projects_trackers_019:
 projects_trackers_020: 
   project_id: 10
   tracker_id: 1
+projects_trackers_021:
+  project_id: 11
+  tracker_id: 2
+projects_trackers_022:
+  project_id: 12
+  tracker_id: 2

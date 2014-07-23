@@ -119,3 +119,28 @@ projects_010:
   parent_id: 
   lft: 1
   rgt: 0
+projects_011: 
+  created_on: 2006-07-19 19:13:59 +02:00
+  name: parent
+  updated_on: 2006-07-19 22:53:01 +02:00
+  id: 11
+  description: Recipes parent application
+  homepage: http://parent.somenet.foo/
+  is_public: true
+  identifier: parent
+  parent_id:
+  lft: 1
+  rgt: 4
+project_012:
+  created_on: 2006-07-19 23:13:59 +02:00
+  name: child
+  updated_on: 2006-07-19 22:53:01 +02:00
+  id: 12
+  description: Recipes child application
+  homepage: http://child.somenet.foo/
+  is_public: true
+  identifier: child
+  parent_id: 11
+  inherit_members: true
+  lft: 2
+  rgt: 3
