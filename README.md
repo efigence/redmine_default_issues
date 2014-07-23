@@ -18,7 +18,7 @@ Developed & tested on Redmine 2.5.1
 
 # Usage
 1. When you have an already existed project:
-  1.1 Go to Project Settings and in Modules tab select Default Issues
+1.1 Go to Project Settings and in Modules tab select Default Issues
     ![](https://raw.githubusercontent.com/efigence/redmine_default_issues_images/master/PIC/Module_in_settings.png)
 
 # License
