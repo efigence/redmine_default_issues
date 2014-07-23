@@ -25,7 +25,8 @@ Here you can see documenation of usage [Redmine Default Issue Plugin][bb] step b
 ### When you don't have an project: 
  If you start create a new project then you can select from Modules - Default Issues module
 
-3. If you select 'inherit members' in new subproject then Default Issue which you will create in subproject and parent project for the same roles and add members to main project (parent), Issues will be create from Default Issue for project, subproject .. (only for themselves)
+### Subproject - Inherit Members
+  If you select 'inherit members' in new subproject then Default Issue which you will create in subproject and parent project for the same roles and add members to main project (parent), Issues will be create from Default Issue for project, subproject .. (only for themselves)
 
 ###  Permissions 
   1. You can specify which role will be able to CRUD an default issues in Administration/roles and permissions/'selected role' or in permission raport
