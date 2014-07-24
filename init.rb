@@ -1,10 +1,11 @@
+# encoding: utf-8
 require "redmine"
 require "redmine_default_issues"
 require "redmine_default_issues/version"
 
 Redmine::Plugin.register :redmine_default_issues do
   name 'Redmine default issues plugin'
-  author 'Marcin Kalita'
+  author "Marcin Kalita, Marcin Świątkiewicz"
   description "Lets you create default issue with default subissues per role. Issues will be assigned to a newly added user (having a specified role) to the project."
   version DefaultIssues::VERSION
   url 'https://github.com/efigence/redmine_default_issues'
