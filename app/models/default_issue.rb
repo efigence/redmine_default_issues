@@ -44,6 +44,10 @@ class DefaultIssue < ActiveRecord::Base
   has_many :relations_from, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'DefaultIssueRelation', :foreign_key => 'default_issue_to_id', :dependent => :delete_all
 
+  def self.find_events(_, _, _, _, _)
+    return []
+  end
+
   def validate_default_issue_estimated_hours
     if due_date != nil
       if due_date < start_date
