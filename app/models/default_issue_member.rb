@@ -7,4 +7,7 @@ class DefaultIssueMember < ActiveRecord::Base
   belongs_to :user
   belongs_to :issue
 
+  def self.find_events(_, _, _, _, _)
+    return []
+  end
 end
